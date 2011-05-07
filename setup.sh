@@ -3,14 +3,26 @@
 abspath=$(cd ${0%/*} && echo $PWD/${0##*/})
 abspath=$(dirname ${abspath})
 
-function createBin() {
-    homebin="${HOME}/bin"
-    if [[ -d "${homebin}" || -L "${homebin}" ]]; then
-        echo "[bin] Failed to create symbolic link ${homebin}. (Target exists)"
-    else
-        ln -s ${abspath}/bin "${homebin}"
-        echo "[bin] ${homebin} -> ${abspath}/bin created."
+function createLink() {
+    fileOrDir="$1"
+    if [[ -f ${HOME}/$1 ]]; then
+        mv ${HOME}/$1 ${HOME}/$1-original
+        echo "[setup] ${HOME}/$1 detected! Moving to ${HOME}/$1-original"
+        return
     fi
+
+    if [[ -L ${HOME}/.vimrc ]]; then
+        echo "[setup] ${HOME}/$1: symlink detected. Do nothing."
+        return
+    fi
+
+    ln -s ${abspath}/$1 ${HOME}/$1
 }
 
-createBin
+
+for file in $(ls -a ${abspath})
+do
+    if [[ $file != 'README.md' && $file != 'setup.sh' && $file != '.git' ]]; then
+        createLink $file
+    fi
+done
