@@ -1,12 +1,15 @@
 #!/bin/bash
 
+abspath=$(cd ${0%/*} && echo $PWD/${0##*/})
+abspath=$(dirname ${abspath})
+
 function createBin() {
-    HOMEBIN="${HOME}/bin"
-    if [[ -d "${HOMEBIN}" || -L "${HOMEBIN}" ]]; then
-        echo "[bin] Failed to create symbolic link ${HOMEBIN}. (Target exists)"
+    homebin="${HOME}/bin"
+    if [[ -d "${homebin}" || -L "${homebin}" ]]; then
+        echo "[bin] Failed to create symbolic link ${homebin}. (Target exists)"
     else
-        ln -s bin/ "${HOMEBIN}"
-        echo "[bin] ${HOMEBIN} created."
+        ln -s ${abspath}/bin "${homebin}"
+        echo "[bin] ${homebin} -> ${abspath}/bin created."
     fi
 }
 
