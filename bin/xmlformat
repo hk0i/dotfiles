@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#xmlformat - formats an xml from pasteboard and outputs to stdout
+
+pastetmp
+if [[ $? == 0 ]]; then
+    xmllint --format ~/tmp
+fi

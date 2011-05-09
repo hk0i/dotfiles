@@ -1,0 +1,6 @@
+#!/usr/bin/php
+<?php
+
+$handle = fopen('php://stdin', 'r');
+while ($line = fgets($handle))
+    print html_entity_decode($line, ENT_QUOTES);

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ $# -gt 0 ]]; then
+    vim $(gg-parse.py $1)
+fi

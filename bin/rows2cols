@@ -1,0 +1,4 @@
+#!/bin/bash
+
+input=`cat`
+echo "$input"|tr '\n' ','|sed -e 's/,$//g'

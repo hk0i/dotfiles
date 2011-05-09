@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ifconfig|sed '/inet/!d;/127.0/d;/dr:\s/d;s/^.*:\(.*\)B.*$/\1/'
+
+# if [ $# -lt 1 ]; then
+    # dev="eth0"
+# else
+    # dev=$1
+# fi
+# 
+# ifconfig ${dev}|grep "inet addr"|awk -F':' '{split($2,a," "); print a[1]}'

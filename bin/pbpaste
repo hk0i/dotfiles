@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ -z `xclip -o` ]]; then
+    xclip -o -sel clipboard
+else
+    xclip -o
+fi

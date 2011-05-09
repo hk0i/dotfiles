@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# escaped pwd, escapes spaces
+pwd|awk '{gsub(/ /,"\\ ",$0); print $0}'

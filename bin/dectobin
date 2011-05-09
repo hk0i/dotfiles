@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ -n $1 ]]; then
+    NUMBER=$1
+    echo "ibase=10;obase=2;${NUMBER}" |bc
+else
+    echo "No number specified."
+fi

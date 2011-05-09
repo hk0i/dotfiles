@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#pastetmp - writes pasteboard to temp file ~/tmp
+
+pbpaste > ~/tmp
