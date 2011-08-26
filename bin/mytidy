@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tidy -q -i -m -w 80 --indent-spaces=4 -asxhtml $1

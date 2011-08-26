@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#headbang
+#svn merges source to current directory's repo
+
+function usage()
+{
+    echo "usage:"
+    echo -e "\t$(basename $0) path-to-source"
+}
+
+if [[ $# -ne 1 ]]; then
+    usage
+    exit 1
+fi
+
+SOURCE_PATH=$1
+
+if [[ ! -d ${SOURCE_PATH} ]]; then
+    echo "$(basename $0): Path does not exist: ${SOURCE_PATH}"
+    exit 2
+fi
+
+
+svn up ${SOURCE_PATH}
+svn up
+
+LASTREV=$(svn info|awk -F': ' '/Last Changed Rev/{print $2}')
+HEADREV=$(svn info ${SOURCE_PATH}|awk -F': ' '/Last Changed Rev/{print $2}')
+HEADREP=$(svn info ${SOURCE_PATH}|awk -F': ' '/URL/{print $2}')
+
+echo "About to execute the following command: "
+echo "svn merge -r${LASTREV}:${HEADREV} ${HEADREP}"
+read -p "Does this look good?[y/N]: "
+if [[ ${REPLY} == 'y' || ${REPLY} == 'Y' ]]; then
+    svn merge -r${LASTREV}:${HEADREV} ${HEADREP}
+else
+    echo "Aborting ..."
+fi
+

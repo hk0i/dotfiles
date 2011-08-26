@@ -1,0 +1,25 @@
+#!/bin/bash
+xset m 2 1
+# xmodmap -e "keycode 134 = Alt_R"
+# xmodmap -e "keycode 108 = Super_R"
+
+#start win7 vm
+VBoxManage startvm "Win7" &
+
+# load apps
+apps=(
+    firefox&
+    gvim&
+    terminator&
+    google-chrome&
+)
+
+for app in ${apps[@]}
+do
+    ${app}
+    wait $!
+done
+
+
+# move windows
+xdotool windowmove `xdotool search --title "Vimperator"` 0 0

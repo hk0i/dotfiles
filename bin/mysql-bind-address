@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat /etc/mysql/my.cnf|grep bind-address|awk -F'= ' '{print $2}'

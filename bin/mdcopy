@@ -1,0 +1,13 @@
+#!/bin/bash
+#mdcopy - copy a markdown file html to clipboard
+mdcommand="markdown"
+
+if [[ $# -gt 0 ]]; then
+    ${mdcommand} $1|sed 's/<pre><code>/{syntaxhighlighter brush:plain}/g' \
+        | sed 's/<\/code><\/pre>/{\/syntaxhighlighter}/g'\
+        | pbcopy
+else
+    echo "usage:"
+    echo -e "\t$(basename $0) <filename.md>"
+fi
+

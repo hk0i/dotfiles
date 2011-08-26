@@ -1,0 +1,6 @@
+#!/bin/bash
+
+synclient VertTwoFingerSCroll=1
+synclient HorizTwoFingerSCroll=1
+synclient EmulateTwoFingerMinW=5
+synclient EmulateTwoFingerMinZ=48

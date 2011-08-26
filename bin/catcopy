@@ -1,0 +1,9 @@
+#!/bin/bash
+#catcopy - cat a file and copy to clipboard/pasteboard
+
+if [[ $# -gt 0 ]]; then
+    cat $1|pbcopy
+else
+    echo "usage:"
+    echo -e "\t$(basename $0) <filename>"
+fi

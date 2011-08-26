@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function usage()
+{
+    echo "usage: "
+    echo -e "\t$(basename $0) <filename.rar>"
+}
+
+if [[ $# -ne 1 ]]; then
+    usage
+    exit 1
+fi
+
+FILENAME=$1
+
+unrar l ${FILENAME} \
+    | sed -e "1,7d" \
+    | head -n -3|awk '{print $1}' \
+    | tr '\n' '\0' \
+    | xargs -0 rm "{}" \;

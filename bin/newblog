@@ -1,0 +1,19 @@
+#!/bin/bash
+
+month=$(date +%m)
+day=$(date +%d)
+year=$(date +%Y)
+date=$(date +%Y-%m-%d)
+
+logpath=${HOME}/logs/${year}/${month}/${date}
+
+mkdir -p ${logpath}
+if [[ $# -gt 0 ]]; then
+    fname=$(jointitle.py $@)
+else
+    read -p "Enter filename for blog: " fname
+    fname=$(jointitle.py ${fname})
+fi
+fpath=${logpath}/${fname}.md
+touch ${fpath}
+echo file "${fpath}" created.

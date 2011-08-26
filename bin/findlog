@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ $# -gt 0 ]]; then
+    grep -rin "$1" ${HOME}/logs/ --color --exclude-dir="\.git*"
+fi

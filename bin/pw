@@ -1,0 +1,15 @@
+#!/bin/bash
+# configure here
+START=9.0
+END=17.0
+# ----
+
+# do not edit below this line
+START=$(echo ${START}*60*60|bc)
+END=$(echo ${END}*60*60|bc)
+
+DIFF=$(echo "${END}-${START}"|bc)
+NOW=$(echo `date +%H`*60*60|bc)
+NOW=$(echo ${NOW}+`date +%M`*60|bc)
+NOW=$(echo ${NOW}+`date +%S`|bc)
+echo "scale=2; ((${NOW}-${START})*100) / ${DIFF}"|bc|awk '{print $0 "%"}'

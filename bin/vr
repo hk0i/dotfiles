@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if [[ $# == 1 ]]; then
+    x=1920
+    y=1200
+    y=$(echo "${y} - 48"|bc)
+    ratio=$(echo "scale=2; ${x} / ${y}"|bc)
+    offset=0,24
+    dims=${x}x${y}
+
+    #xvid
+    # ffmpeg -an -s $dims -r 25 -f x11grab -i :0.0+0,0 -s $dims -r 25 \
+        # -vcodec libxvid -aspect $ratio -sameq $1 &
+
+    # H264
+    if [[ $(pidof ffmpeg) ]]; then
+        killall ffmpeg
+    else
+        zenity --question --title "Screen Capture" --text "Begin Recording?"
+        if [[ $? == 0 ]]; then
+            ffmpeg -y -an -f x11grab -r 29.97 -s $dims -i :0.0+${offset} \
+                -vcodec libx264 -vpre lossless_ultrafast -qscale 1 $1
+        fi
+    fi
+    # ffmpeg -f x11grab -y -r 30 -s $dims -i :0.0 -vcodec ffv1 -sameq $1
+fi

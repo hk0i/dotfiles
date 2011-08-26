@@ -1,0 +1,5 @@
+#!/bin/bash
+PATH=${PATH}:${HOME}/bin
+
+sudo chown -R www-data\: .
+sudo chmod -R g+w .
