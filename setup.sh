@@ -11,7 +11,7 @@ function createLink() {
         return
     fi
 
-    if [[ -L ${HOME}/.vimrc ]]; then
+    if [[ -L ${HOME}/$1 ]]; then
         echo "[setup] ${HOME}/$1: symlink detected. Do nothing."
         return
     fi
@@ -22,7 +22,7 @@ function createLink() {
 
 for file in $(ls -a ${abspath})
 do
-    if [[ $file != 'README.md' && $file != 'setup.sh' && $file != '.git' ]]; then
+    if [[ $file != '.' && $file != '..' && $file != 'README.md' && $file != 'setup.sh' && $file != '.git' ]]; then
         createLink $file
     fi
 done
