@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#compile less.css files, and compress them hardcore.
+if [[ $# == 1 ]]; then
+    infile=$1
+    outfile=$(basename ${infile%.*})
+    outpath="$(dirname $infile)/../css"
+
+    if [[ -d $outpath ]]; then
+        outfile="$outpath/$outfile.css"
+    else
+        outfile="$(dirname $infile)/$outfile.css"
+    fi
+    lessc -x $infile |perl -ne 'chomp; print "$_";' > $outfile
+fi
