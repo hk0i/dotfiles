@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#adds a shell function for fast directory switching, including bash completion
+
+_client()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts=$(ls $HOME/Sites/clients)
+
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+}
+
+complete -F _client client
+
+client()
+{
+    client=$1
+    dir="$HOME/Sites/clients/$client"
+    if [[ -d $dir ]]; then
+        cd $dir
+    else
+        echo "Could not find directory for $client ($dir)"
+    fi
+}
