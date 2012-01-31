@@ -23,6 +23,8 @@ filetype off "required for vundle
 set rtp+=~/.vim/vundle.git/
 call vundle#rc()
 
+Bundle 'gmarik/vundle'
+Bundle 'autonumbering-in-vim'
 Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'DoxyGen-Syntax'
 Bundle 'Markdown'
@@ -236,6 +238,7 @@ hi CursorLine guibg=#222222
 set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]\ [%{&ff}]
 
 au BufWritePre *.java,*.cpp,*.php,*.phtml :%s/\(\s\+$\|\s\r\+$\)//ge
+au BufWritePost hosts :w! %:p.ac
 
 " map <Tab> >>
 " map <S-Tab> <<
@@ -244,3 +247,11 @@ au BufWritePre *.java,*.cpp,*.php,*.phtml :%s/\(\s\+$\|\s\r\+$\)//ge
 set vb t_vb=
 
 map ;f :CommandT<CR>
+map <D-F> :CommandTFlush<CR>
+map <F10> :e /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf<CR>
+
+autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
+au BufWritePost .gvimrc,.vimrc :so %
+
+let g:jekyll_path = "/Users/gmcquillan/Dropbox/otaku-elite/jekyll/"
+execute "autocmd BufNewFile,BufRead " . g:jekyll_path . "/* syn match jekyllYamlFrontmatter /\\%^---\\_.\\{-}---$/ contains=@Spell"
