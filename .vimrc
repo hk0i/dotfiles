@@ -20,10 +20,12 @@ set nocompatible
 " vundle config
 filetype on "don't crash git
 filetype off "required for vundle
-set rtp+=~/.vim/vundle.git/
+set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
+
+
 Bundle 'autonumbering-in-vim'
 Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'DoxyGen-Syntax'

@@ -8,7 +8,6 @@ function createLink() {
     if [[ -f ${HOME}/$1 ]]; then
         mv ${HOME}/$1 ${HOME}/$1-original
         echo "[setup] ${HOME}/$1 detected! Moving to ${HOME}/$1-original"
-        return
     fi
 
     if [[ -L ${HOME}/$1 ]]; then
@@ -16,7 +15,7 @@ function createLink() {
         return
     fi
 
-    ln -s ${abspath}/$1 ${HOME}/$1
+    ln -sf ${abspath}/$1 ${HOME}/$1
 }
 
 
@@ -26,3 +25,6 @@ do
         createLink $file
     fi
 done
+
+mkdir -p ~/.vim/bak
+. ~/.profile
