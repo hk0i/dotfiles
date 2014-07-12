@@ -1,82 +1,23 @@
 #!/usr/bin/env python
 
 import random
+import json
+import urllib
 
-champs = [
-    'Akali',
-    'Alistar',
-    'Amumu',
-    'Anivia',
-    'Annie',
-    'Ashe',
-    'Blitzcrank',
-    'Brand',
-    'Caitlyn',
-    'Cassiopeia',
-    'Cho\'Gath',
-    'Corki',
-    'Dr. Mundo',
-    'Evelynn',
-    'Ezreal',
-    'Fiddlesticks',
-    'Galio',
-    'Gangplank',
-    'Garen',
-    'Gragas',
-    'Heimerdinger',
-    'Irelia',
-    'Janna',
-    'Jarvan IV',
-    'Jax',
-    'Karma',
-    'Karthus',
-    'Kassadin',
-    'Katarina',
-    'Kayle',
-    'Kennen',
-    'Kog\'Maw',
-    'LeBlanc',
-    'Lee Sin',
-    'Lux',
-    'Malphite',
-    'Malzahar',
-    'Maokai',
-    'Master Yi',
-    'Miss Fortune',
-    'Mordekaiser',
-    'Morgana',
-    'Nasus',
-    'Nidalee',
-    'Nocturne',
-    'Nunu',
-    'Olaf',
-    'Pantheon',
-    'Poppy',
-    'Rammus',
-    'Renekton',
-    'Ryze',
-    'Shaco',
-    'Shen',
-    'Singed',
-    'Sion',
-    'Sivir',
-    'Sona',
-    'Soraka',
-    'Swain',
-    'Taric',
-    'Teemo',
-    'Tristana',
-    'Trundle',
-    'Tryndamere',
-    'Twisted Fate',
-    'Twitch',
-    'Udyr',
-    'Urgot',
-    'Veigar',
-    'Vladimir',
-    'Warwick',
-    'Xin Zhao',
-    'Zilean',
-]
+LEAGUE_CHAMPIONS_JSON_URL = 'http://ddragon.leagueoflegends.com/cdn/4.10.7/data/en_US/champion.json'
 
-print random.choice(champs)
+def download_champion_list():
+    ''' downloads json with league of legends champion data '''
+    filePointer = urllib.urlopen(LEAGUE_CHAMPIONS_JSON_URL)
+    try:
+        return json.load(filePointer)['data']
+    except:
+        return None
+
+def pick_random_champion():
+    champs = download_champion_list()
+    if champs:
+        return random.choice(champs.keys())
+        # pprint(champs['data'].keys())
+
+print pick_random_champion()
