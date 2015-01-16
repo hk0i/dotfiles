@@ -1,0 +1,3 @@
+#!/bin/bash
+
+vim -O /etc/hosts /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf

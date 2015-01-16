@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+'''
+preprocesses less-generated CSS files to convert background-sprite: to
+annotated background-image:
+'''
+
+import sys
+import re
+
+for line in sys.stdin.readlines():
+    sprite_regex = r'background-sprite:\s*.+(url\(.+?\)) (.+)'
+    match = re.search(sprite_regex, line)
+    if match:
+        params = match.group(2)
+        print 'background-image: %s; /** %s **/' % (
+            match.group(1),
+            params.replace('(', ': ').replace(')', ';').replace(';;', ';')
+        )
+    else:
+        print line.rstrip()
+

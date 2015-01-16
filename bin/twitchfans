@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ $# -gt 0 ]]; then
+    user=$1
+else
+    echo "Usage:"
+    echo "$(basename $0) <username>"
+    exit 1
+fi
+
+curl -s http://api.justin.tv/api/channel/fans/$user.xml?limit=100|grep login|sed 's/<[^>]*>//g'

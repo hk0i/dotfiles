@@ -1,0 +1,4 @@
+#!/bin/bash
+# wifi ip
+
+ifconfig en1|perl -ne '/inet (\d+\.\d+\.\d+\.\d+)/ && print "$1\n"'

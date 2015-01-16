@@ -1,0 +1,7 @@
+#!/bin/bash
+
+ssh $1 osascript << EOT 
+    tell application "System Events"
+        sleep
+    end
+    EOT

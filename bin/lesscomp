@@ -1,9 +1,14 @@
 #!/bin/bash
 
 #compile less.css files, and compress them hardcore.
-if [[ $# == 1 ]]; then
+if [[ $# -gt 0 ]]; then
+
     infile=$1
-    outfile=$(basename ${infile%.*})
+    if [[ $2 != '' ]]; then
+        outfile=$2
+    else
+        outfile=$(basename ${infile%.*})
+    fi
     outpath="$(dirname $infile)/../css"
 
     if [[ -d $outpath ]]; then
@@ -11,5 +16,5 @@ if [[ $# == 1 ]]; then
     else
         outfile="$(dirname $infile)/$outfile.css"
     fi
-    lessc -x $infile |perl -ne 'chomp; print "$_";' > $outfile
+    lessc -x $infile > $outfile #|perl -ne 'chomp; print "$_";' > $outfile
 fi
