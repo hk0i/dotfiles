@@ -1,0 +1,84 @@
+# vim: fdm=marker
+# general language snippets {{{
+snippet fun "function definition" b
+func ${1:functionName}(${2:params})${3: -> ${4:Int}} {
+	${5:/* function body */}
+}
+endsnippet
+
+snippet if "if statement" b
+if ${1:test} {
+	${2:/* result */}
+}
+${3}
+endsnippet
+
+snippet el "else clause" b
+else${1: if ${2:test}} {
+	${3:/* result */}
+}
+${4}
+endsnippet
+
+snippet ae "assert equal (XCTAssertEqual)" b
+XCTAssertEqual(${1:/* expected */}, ${2:/* actual */})$3
+endsnippet
+
+snippet an "assert nil (XCTAssertNil)" b
+XCTAssertNil(${1:/* object */})
+endsnippet
+
+snippet ann "assert not nil (XCTAssertNotNil)" b
+XCTAssertNotNil(${1:/* expected */})
+endsnippet
+
+snippet sh "shebang line" b
+#!/usr/bin/env xcrun swift
+
+${0}
+endsnippet
+
+snippet cl "class" b
+class ${1:`!p snip.rv = snip.basename`}${2:: ${3:NSObject}${4}} {
+	${5:/* code */}
+}
+endsnippet
+
+snippet ov "override" b
+override ${1}
+endsnippet
+
+snippet req "required" b
+required ${1}
+endsnippet
+
+snippet sui "super.init()" b
+super.init(${1:/* params */})${2}
+endsnippet
+# }}}
+
+# snippets for Cocoa OS X {{{
+snippet NSWindow "NSWindow class with parameter list"
+NSWindow(contentRect: ${1:/* contentRect: NSRect */},
+	styleMask: ${2:/* windowStyle: Int */},
+	backing: ${3:/* bufferingType: NSBackingStoreType */},
+	defer: ${4:/* deferCreation: Bool */})${5}
+endsnippet
+
+snippet NSRect "create NSRect"
+NSRect(x: ${1:/* x */}, y: ${2:/* y */}, width: ${3:/* width */}, height: ${4:/* height */})${5}
+endsnippet
+
+snippet NSView "creates NSView"
+NSView(frame: ${1:/* frameRect: NSRect */})${2}
+endsnippet
+
+snippet NSTextView "creates an NSTextView"
+NSTextView(frame: ${1:/* frameRect: NSRect */})${2}
+endsnippet
+
+snippet NSTextField "creates an NSTextField"
+NSTextField(frame: ${1:/* frameRect: NSRect */})${2}
+endsnippet
+# }}}
+

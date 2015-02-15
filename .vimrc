@@ -1,259 +1,219 @@
-" An example for a vimrc file.
-"
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2008 Jul 02
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
+let mapleader=","
 
-" When started as "evim", evim.vim will already have done these settings.
-if v:progname =~? "evim"
-  finish
-endif
+so ~/.vim/rc/plugins.vim
 
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
-" vundle config
-filetype on "don't crash git
-filetype off "required for vundle
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+" Stuff from the sample vimrc {{{
+    " An example for a vimrc file.
+    "
+    " Maintainer:	Bram Moolenaar <Bram@vim.org>
+    " Last change:	2008 Dec 17
+    "
+    " To use it, copy it to
+    "     for Unix and OS/2:  ~/.vimrc
+    "	      for Amiga:  s:.vimrc
+    "  for MS-DOS and Win32:  $VIM\_vimrc
+    "	    for OpenVMS:  sys$login:.vimrc
 
-Bundle 'gmarik/vundle'
+    " When started as "evim", evim.vim will already have done these settings.
+    if v:progname =~? "evim"
+      finish
+    endif
 
+    " Use Vim settings, rather than Vi settings (much better!).
+    " This must be first, because it changes other options as a side effect.
+    set nocompatible
 
-Bundle 'autonumbering-in-vim'
-Bundle 'git://git.wincent.com/command-t.git'
-Bundle 'DoxyGen-Syntax'
-Bundle 'Markdown'
-Bundle 'OmniCppComplete'
-Bundle 'The-NERD-tree'
-Bundle 'ToggleComment'
-Bundle 'Sass'
-" Bundle 'snipMate'
-Bundle "git://github.com/MarcWeber/vim-addon-mw-utils.git"
-Bundle "git://github.com/tomtom/tlib_vim.git"
-Bundle 'https://github.com/MarcWeber/snipmate.vim.git'
-Bundle 'surround.vim'
-Bundle 'https://github.com/reinh/vim-makegreen.git'
-Bundle 'https://github.com/plasticboy/vim-markdown.git'
+    " allow backspacing over everything in insert mode
+    set backspace=indent,eol,start
 
-" my theme
-Bundle 'GregoTheme'
-Bundle 'markdown-snippets'
+    if has("vms")
+      set nobackup		" do not keep a backup file, use versions instead
+    else
+      set backup		" keep a backup file
+    endif
+    set history=50		" keep 50 lines of command line history
+    set ruler		" show the cursor position all the time
+    set showcmd		" display incomplete commands
+    set incsearch		" do incremental searching
 
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
+    " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
+    " let &guioptions = substitute(&guioptions, "t", "", "g")
 
-if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
-else
-  set backup		" keep a backup file
-endif
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+    " Don't use Ex mode, use Q for formatting
+    map Q gq
 
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
+    " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+    " so that you can undo CTRL-U after inserting a line break.
+    inoremap <C-U> <C-G>u<C-U>
 
-" Don't use Ex mode, use Q for formatting
-map Q gq
+    " In many terminal emulators the mouse works just fine, thus enable it.
+    if has('mouse')
+      set mouse=a
+    endif
 
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
+    " Switch syntax highlighting on, when the terminal has colors
+    " Also switch on highlighting the last used search pattern.
+    if &t_Co > 2 || has("gui_running")
+      syntax on
+      set hlsearch
+    endif
 
-" In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-  set mouse=a
-endif
+    " Only do this part when compiled with support for autocommands.
+    if has("autocmd")
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
-endif
+      " Enable file type detection.
+      " Use the default filetype settings, so that mail gets 'tw' set to 72,
+      " 'cindent' is on in C files, etc.
+      " Also load indent files, to automatically do language-dependent indenting.
+      filetype plugin indent on
 
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
+      " Put these in an autocmd group, so that we can delete them easily.
+      augroup vimrcEx
+      au!
 
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
+      " For all text files set 'textwidth' to 78 characters.
+      autocmd FileType text setlocal textwidth=78
 
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
+      " When editing a file, always jump to the last known cursor position.
+      " Don't do it when the position is invalid or when inside an event handler
+      " (happens when dropping a file on gvim).
+      " Also don't do it when the mark is in the first line, that is the default
+      " position when opening a file.
+      autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
 
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
+      augroup END
 
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  " Also don't do it when the mark is in the first line, that is the default
-  " position when opening a file.
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
+    else
 
-  augroup END
+      set autoindent		" always set autoindenting on
 
-else
+    endif " has("autocmd")
 
-  set autoindent		" always set autoindenting on
+    " Convenient command to see the difference between the current buffer and the
+    " file it was loaded from, thus the changes you made.
+    " Only define it when not defined already.
+    if !exists(":DiffOrig")
+      command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+              \ | wincmd p | diffthis
+    endif
+" }}}
 
-endif " has("autocmd")
+colorscheme obsidian2 "requires the 'plugin'
 
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
-endif
+"all `set` settings {{{
 
-set sw=4
-set ts=4
-set softtabstop=4
-set expandtab
-set cindent
-" set si
-set fdm=syntax
+    "double slash adds full path to bak file name.
+    set backupdir=~/.vim/bak//
+    set noswapfile "disable swap files
+    set backup
 
-" long line highlighting
-autocmd BufRead * highlight OverLength ctermbg=darkgrey guibg=#292929
-autocmd BufRead * match OverLength /\%80v.*/
-set textwidth=80
-set number
-colorscheme grego
+    set number
+    highlight LineNr ctermfg=grey ctermbg=darkgrey guibg=#002222
 
-" map meta keys for gui mode
-" map <A-1> 1gt
-" map <A-2> 2gt
-" map <A-3> 3gt
-" map <A-4> 4gt
-" map <A-5> 5gt
-" map <A-6> 6gt
-" map <A-7> 7gt
-" map <A-8> 8gt
-" map <A-9> 9gt
+    "default tab settings
+    set sw=4
+    set softtabstop=4
+    "for when tabs are tabs:
+    set ts=4
+    set expandtab
 
-map <D-1> 1gt
-map <D-2> 2gt
-map <D-3> 3gt
-map <D-4> 4gt
-map <D-5> 5gt
-map <D-6> 6gt
-map <D-7> 7gt
-map <D-8> 8gt
-map <D-9> 9gt
-map <D-0> 10gt
+    "and invisible characters to distinguish tabs and spaces...
+    set list
+    set listchars=tab:▸·,trail:·,extends:❯,precedes:❮
+    set showbreak=↪
+
+    "auto save and load files
+    set autoread
+    au FocusLost * silent! wa
+
+    "set color column (ruler)
+    set cc=80
+    hi ColorColumn guibg=#555555
+
+    "incremental search-as-you-type
+    set incsearch
+
+    set vb
+    set wildmenu "show a menu when doing tab completions
+
+    set wildmode=list:longest
+    set wildignore+=.hg,.git,.svn                    " Version control
+    set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+    set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+    set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+    set wildignore+=*.spl                            " compiled spelling word lists
+    set wildignore+=*.sw?,*~                            " Vim swap files
+    set wildignore+=*.DS_Store                       " OSX bullshit
 
 
-map <C-t> :tabnew<CR>
-"map <C-W> :tabclose<CR>
+    set wildignore+=migrations                       " Django migrations
+    set wildignore+=*.pyc                            " Python byte code
 
-"autocompletes
-filetype on
-filetype plugin on
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#CompleteCpp
+    set wildignore+=*.orig                           " Merge resolution files
+" }}} /set
 
-set backupdir=~/.vim/bak
+" .vim settings {{{
+    augroup ft_vim
+        au!
 
-" set up whitespace drawing stuff.
-set listchars=tab:▸-,trail:·,extends:>,precedes:<
-set list
-" toggle listchars key
-map ,l :set list!<CR>:set expandtab!<CR>
-"toggle line wrapping
-map ,m :set wrap!<CR>
-" refresh syntax highlighting
-noremap <silent> ,k :syntax sync minlines=200<CR>
+        au BufWritePost .vimrc so %
+        au BufWritePost .gvimrc so %
+        au BufWritePost .vim so ~/.vimrc
 
-" toggle command for NERDTree
-noremap <silent> ,, :execute 'NERDTreeToggle ' . getcwd()<CR>
-noremap <silent> ,. :NERDTreeMirror<CR>
+        au FileType vim setlocal foldmethod=marker
+        au FileType help setlocal textwidth=78
+        au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    augroup END
+" }}}
 
-" i was using these before!!
-" let g:SuperTabDefaultCompletionType = "context"
-" let g:SuperTabContextDefaultCompletionType = "<c-n>"
+"statusline related {{{
+    set laststatus=2
+    let g:airline_powerline_fonts = 1
+"}}}
 
-" let g:SuperTabMappingForward='<s-tab>'
-" let g:SuperTabMappingBackward='<tab>'
+" resize vim splits when the window is resized
+au VimResized * :wincmd =
 
-"set guifont="DejaVu Sans Mono":h8:cDEFAULT
-" set guifont=DejaVu\ Sans\ Mono\ 9
+"highlight frontmatter (from plasticboy/vim-markdown)
+let g:vim_markdown_frontmatter=1
 
-" Mappings for plugin/ToggleComment.vim
+" buffer related {{{
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+" }}} 
 
-noremap <silent> ,# :call CommentLineToEnd('# ')<CR>^
-noremap <silent> ;# :call CommentLineToEnd('### ')<CR>^
-noremap <silent> ,/ :call CommentLineToEnd('// ')<CR>^
-noremap <silent> ," :call CommentLineToEnd('" ')<CR>^
-noremap <silent> ,; :call CommentLineToEnd('; ')<CR>^
-noremap <silent> ,- :call CommentLineToEnd('-- ')<CR>^
-noremap <silent> ,* :call CommentLinePincer('/* ', ' */')<CR>^
-noremap <silent> ,< :call CommentLinePincer('<!-- ', ' -->')<CR>^
+" some language specific things {{{
+" TODO: move these if they get too big
+    " c++ {{{
+        autocmd FileType cpp setlocal equalprg=clang-format
+    " }}}
 
-" and/or Filetype specific mappings: Meta-c (Alt-c) and Meta-Shift-C
+    " swift {{{
+        augroup ft_swift
+            au!
+            au FileType swift setlocal foldmethod=marker
+            au FileType swift setlocal foldmarker={,}
+"            au FileType swift setl makeprg=xcrun\ -sdk\ macosx\ swiftc\ %
+            au FileType swift :nnoremap <D-b> :w!<CR>:make<CR>
+            "StripWhitespace is from ntpeters/vim-better-whitespace
+            au BufWritePre *.swift :StripWhitespace
+        augroup END
+    " }}}
 
-autocmd FileType c    noremap <silent> <buffer> <M-c> :call CommentLineToEnd ('// ')<CR>^
-autocmd FileType c    noremap <silent> <buffer> <M-C> :call CommentLinePincer('/* ', ' */')<CR>^
-autocmd FileType make noremap <silent> <buffer> <M-c> :call CommentLineToEnd ('# ')<CR>^
-autocmd FileType html noremap <silent> <buffer> <M-c> :call CommentLinePincer('<!-- ', ' -->')<CR>^
+" }}}
 
-"php folding
-map <F5> <Esc>:EnableFastPHPFolds<Cr>
-map <F6> <Esc>:EnablePHPFolds<Cr>
-map <F7> <Esc>:DisablePHPFolds<Cr>
+" Only show cursorline in the current window and in normal mode. {{{
 
-" doxygen file syntax highlighting
-au BufNewFile,BufRead *.doxygen setfiletype doxygen
-au! BufRead,BufNewFile *.sass setfiletype sass
-au BufRead,BufNewFile *.scss set filetype=scss
+augroup cline
+    au!
+    au WinLeave,InsertEnter * set nocursorline
+    au WinEnter,InsertLeave * set cursorline
+augroup END
+" }}}
 
-" ctrl-c, ctrl-v copy & paste
-map <C-c> "+y
-"map <C-v> "+p
-
-set cursorline
-hi CursorLine guibg=#222222
-
-"set status line
-set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]\ [%{&ff}]
-
-au BufWritePre *.java,*.cpp,*.php,*.phtml :%s/\(\s\+$\|\s\r\+$\)//ge
-au BufWritePost hosts :w! %:p.ac
-
-" map <Tab> >>
-" map <S-Tab> <<
-
-" disable annoying bell in graphical vim
-set vb t_vb=
-
-map ;f :CommandT<CR>
-map <D-F> :CommandTFlush<CR>
-map <F10> :e /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf<CR>
-
-autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
-au BufWritePost .gvimrc,.vimrc :so %
-
-let g:jekyll_path = "/Users/gmcquillan/Dropbox/otaku-elite/jekyll/"
-execute "autocmd BufNewFile,BufRead " . g:jekyll_path . "/* syn match jekyllYamlFrontmatter /\\%^---\\_.\\{-}---$/ contains=@Spell"
+so ~/.vim/rc/keymap.vim
