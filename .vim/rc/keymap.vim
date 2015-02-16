@@ -45,6 +45,8 @@ au! BufWritePost keymap.vim so ~/.vimrc
 
     "cmd + number for layout related things
     nmap <D-1> :NERDTreeToggle<CR>
+    nmap <D-2> :cw<CR>
+
 
     "toggle_comment to use CMD-/
     map <D-/> q

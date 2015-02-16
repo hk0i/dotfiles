@@ -41,8 +41,12 @@ au! BufWritePost plugins.vim :so ~/.vimrc
 
     "Greg's junk
     Plugin 'obsidian2.vim'
+
+    " swift stuff
 "    Plugin 'Keithbsmiley/swift.vim'
     Plugin 'kballard/vim-swift'
+    Plugin 'scrooloose/syntastic'
+
     Plugin 'toggle_comment'
     Plugin 'scrooloose/nerdtree'
     Plugin 'bling/vim-airline'
