@@ -215,5 +215,21 @@ augroup cline
     au WinEnter,InsertLeave * set cursorline
 augroup END
 " }}}
+" dynamic options {{{
+    au InsertEnter * :set norelativenumber|:set number
+    au InsertLeave * :set relativenumber
+" }}}
+
+" plugin config {{{
+    " tpope/vim-markdown {{{
+        let g:markdown_fenced_languages = ['java', 'cpp', 'javascript', 'objc']
+    " }}}
+
+    "CtrlP {{{
+    "add some ignore stuff for CtrlP: DS_Store, jekyll's _site directory,
+    "node_modules, ...
+        let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|^.git$\|_site'
+    "}}}
+" }}}
 
 so ~/.vim/rc/keymap.vim

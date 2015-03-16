@@ -1,4 +1,5 @@
-" set transparency=5
+au! BufWritePost .gvimrc so %
+set transparency=5
 set cursorline
 hi cursorline guibg=#444444
 "set gfn=monaco:h15
@@ -18,3 +19,11 @@ if has("gui_macvim")
     au! BufReadPost plugins.vim map <buffer> <D-b> :w<CR>:so ~/.vimrc<CR>:PluginInstall<CR>
 endif
 map 'f :CommandT<CR>
+
+aug autosave
+    au!
+    au InsertLeave * :silent! w
+    au InsertEnter * :silent! w
+    au CursorHold  * :silent! w
+    au CursorHoldI * :silent! w
+aug END

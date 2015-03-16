@@ -55,7 +55,12 @@ au! BufWritePost keymap.vim so ~/.vimrc
     nnoremap <leader>w :set wrap!<CR>
     nnoremap <leader>n :set number!<CR>
     nmap <leader>h :noh<CR>
-    nnoremap ; :
+    vnoremap <leader>: :Tabularize /:<CR>
+
+    vnoremap Q gq
+
+    :nnoremap <F5> "=strftime("%Y-%m-%d %H:%M:%S %z")<CR>
+:inoremap <F5> <C-R>=strftime("%Y-%m-%d %H:%M:%S %z")<CR>
 " }}}
 
 " window stuff {{{
@@ -115,10 +120,13 @@ au! BufWritePost keymap.vim so ~/.vimrc
 " }}}
 
 " markdown mappings {{{
-    "for markdown, fill blanks with cmd ctrl g <C-D-g>
+    "for markdown, fill blanks with ctrl g <C-g>
     "these dont' appear to work yet
-    au! FileType mkd,markdown,rst nnoremap <C-g> :call autolink#DefCreate()<CR>
-    au! FileType mkd,markdown,rst inoremap <C-g> :call autolink#DefCreate()<CR>
+"    au! FileType mkd,markdown,rst nnoremap <C-g> :call autolink#DefCreate()<CR>
+    augroup Markdown
+    au!
+    au FileType mkd,markdown :nnoremap <C-g> :%!~/bin/mdlinks<CR>
+    au Filetype mkd,markdown :set spell
+    augroup end
 
 " }}} 
-

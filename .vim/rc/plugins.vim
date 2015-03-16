@@ -15,6 +15,7 @@ au! BufWritePost plugins.vim :so ~/.vimrc
 
     Plugin 'godlygeek/tabular'
     Plugin 'plasticboy/vim-markdown'
+"    Plugin 'tpope/vim-markdown'
     Plugin 'sampsyo/autolink.vim'
 
     "auto close quotes, parents, brackets.
@@ -38,6 +39,8 @@ au! BufWritePost plugins.vim :so ~/.vimrc
     Plugin 'L9'
     " Git plugin not hosted on GitHub
     "Plugin 'git://git.wincent.com/command-t.git'
+
+    Plugin 'parkr/vim-jekyll'
 
     "Greg's junk
     Plugin 'obsidian2.vim'
@@ -81,6 +84,8 @@ au! BufWritePost plugins.vim :so ~/.vimrc
 
     "trim trailing whitespace
     Plugin 'ntpeters/vim-better-whitespace'
+
+    Plugin 'jimf/vim-async-make-green'
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
