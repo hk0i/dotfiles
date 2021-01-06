@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# ipng - generate iOS friendly rasterized png files from an svg source
+
+outPath="output"
+size=""
+function main()  {
+    input="${@:2}"
+
+    checkArgs
+
+    for file in $input; do
+        baseFile=$(basename -- "$file")
+        baseFile="${baseFile%.*}"
+        fullOutPath="$outPath/$baseFile-$size"
+
+        resize 1x
+        resize 2x
+        resize 3x
+    done
+}
+
+function checkArgs() {
+    # make sure all required arguments are present
+    if [[ -z "$size" ]]; then
+        echo "Must specify size with -s" >&2
+        usage 2
+    fi
+
+    if [[ -z "$input" ]]; then
+        echo "Must specify input file" >&2
+        usage 3
+    fi
+}
+
+function resize() {
+    scale="${1%x*}"
+    width=$((${size%x*} * $scale))
+    height=$((${size#*x} * $scale))
+
+    mkdir -p "$fullOutPath"
+    $(set -x; convert "$file" -background none -resize "${width}x${height}" "$fullOutPath/${baseFile}@${scale}x.png")
+}
+
+function usage() {
+    exitCode="$1"
+    if [[ -z "$exitCode" ]]; then
+        exitCode=1
+    fi
+
+    script="$(basename $0)"
+    cat << EOS
+Usage:
+    $script [-o <output path>] [-s <output size>] <input files>...
+
+Example:
+
+    $script -s 48x48 somefile.svg
+        Generates a set of 48x48 pt files from somefile.svg:
+            - output/somefile/somefile@1x.png
+            - output/somefile/somefile@2x.png
+            - output/somefile/somefile@3x.png
+EOS
+    exit "$exitCode"
+}
+
+while getopts "ho:s:" opt; do
+    case "$opt" in
+        h)
+            usage
+            ;;
+        o)
+            outPath="$OPTARG"
+            ;;
+        s)
+            size="$OPTARG"
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $(($OPTIND -1))
+
+main "$@"
