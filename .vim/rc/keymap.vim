@@ -24,34 +24,35 @@ au! BufWritePost keymap.vim so ~/.vimrc
     "map <D-0> 0gt
 
     " use F keys to switch tabs.
-    map <F1> 1gt
-    map <F2> 2gt
-    map <F3> 3gt
-    map <F4> 4gt
-    map <F5> 5gt
-    map <F6> 6gt
-    map <F7> 7gt
-    map <F8> 8gt
-    map <F9> 9gt
-    map <F10> 0gt
+    nnoremap <F1> 1gt
+    nnoremap <F2> 2gt
+    nnoremap <F3> 3gt
+    nnoremap <F4> 4gt
+    nnoremap <F5> 5gt
+    nnoremap <F6> 6gt
+    nnoremap <F7> 7gt
+    nnoremap <F8> 8gt
+    nnoremap <F9> 9gt
+    nnoremap <F10> 0gt
 
-    map <S-F1> :vsp ~/.vimrc<CR>
-    map <S-F2> :vsp ~/.gvimrc<CR>
-    map <S-F3> :vsp ~/.vim/rc/plugins.vim<CR>
-    map <S-F4> :vsp ~/.vim/rc/keymap.vim<CR>
+    nnoremap <S-F1> :vsp ~/.vimrc<CR>
+    nnoremap <S-F2> :vsp ~/.gvimrc<CR>
+    nnoremap <S-F3> :vsp ~/.vim/rc/plugins.vim<CR>
+    nnoremap <S-F4> :vsp ~/.vim/rc/keymap.vim<CR>
 
-    map \ :vnew<CR>
-    map _ :new<CR>
+    nnoremap \ :vnew<CR>
+    nnoremap _ :new<CR>
 
     "cmd + number for layout related things
-    nmap <D-1> :NERDTreeToggle<CR>
-    nmap <D-2> :cw<CR>
+    noremap <D-1> :NERDTreeToggle<CR>
+    noremap <D-2> :cw<CR>
 
 
     "toggle_comment to use CMD-/
     map <D-/> q
 
     " set leader keys to toggle settings
+    let mapleader=" "
     nnoremap <leader>w :set wrap!<CR>
     nnoremap <leader>n :set number!<CR>
     nmap <leader>h :noh<CR>
@@ -60,7 +61,8 @@ au! BufWritePost keymap.vim so ~/.vimrc
     vnoremap Q gq
 
     :nnoremap <F5> "=strftime("%Y-%m-%d %H:%M:%S %z")<CR>
-:inoremap <F5> <C-R>=strftime("%Y-%m-%d %H:%M:%S %z")<CR>
+    :inoremap <F5> <C-R>=strftime("%Y-%m-%d %H:%M:%S %z")<CR>
+    :cnoremap <F5> <C-R>=strftime("%Y-%m-%d-")<CR>
 " }}}
 
 " window stuff {{{
@@ -113,10 +115,6 @@ au! BufWritePost keymap.vim so ~/.vimrc
     nnoremap <C-j> <C-w>j
     nnoremap <C-k> <C-w>k
     nnoremap <C-l> <C-w>l
-
-    " Space to toggle folds.
-    nnoremap <Space> za
-    vnoremap <Space> za
 " }}}
 
 " markdown mappings {{{
