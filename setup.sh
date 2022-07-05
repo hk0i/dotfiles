@@ -8,6 +8,31 @@ checkmark="✅ "
 info="ℹ️  "
 gear="⚙️ "
 
+function main() {
+    installHomebrew
+    initVim
+    linkAllDotFiles
+    installVundle
+    installNvim
+    installFortune
+    installMisc
+
+    . ~/.profile
+    installOhMyZsh
+}
+
+function installHomebrew() {
+    echo "$info Checking for homebrew..."
+    brew -v > /dev/null
+    if [ $? == 0 ]; then
+        echo "$checkmark homebrew detected; no action taken"
+        return
+    fi
+
+    echo "$gear installing homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
 function createLink() {
     fileOrDir="$1"
     if [[ -f ${HOME}/$1 ]]; then
@@ -67,7 +92,14 @@ function installNvim() {
     echo "$gear Installing NeoVim..."
     brew install nvim python3
     pip3 install neovim
+    installVimPlug
     linkNvimConfig
+    nvim +PlugInstall +qall
+}
+
+function installVimPlug() {
+    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 }
 
 function linkNvimConfig() {
@@ -99,13 +131,4 @@ function installFonts() {
     echo "$gear installing nerdfonts"
 }
 
-
-initVim
-linkAllDotFiles
-installVundle
-installNvim
-installFortune
-installMisc
-
-. ~/.profile
-installOhMyZsh
+main
