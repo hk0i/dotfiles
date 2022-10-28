@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+import sys
+
+# quick script to print out kbd keys, nice to filter input for note taking
+
+for line in sys.stdin:
+    words = line.split()
+    count = len(words)
+
+    for i in range(count):
+        word = words[i]
+        print(f'<kbd>{word}</kbd>', end='')
+        if i < count - 1:
+            print(' + ', end='')
