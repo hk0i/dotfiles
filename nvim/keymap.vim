@@ -18,6 +18,11 @@ au! BufWritePost keymap.vim so %
     nnoremap <S-F3> :exe 'vsp' stdpath('config') . '/plugins.vim'<CR>
     nnoremap <S-F4> :exe 'vsp' stdpath('config') . '/keymap.vim'<CR>
 
+    " Use F13-16 when Shift-F1-F4 don't work
+    nnoremap <F13> :exe 'vsp' stdpath('config') . '/init.vim'<CR>
+    nnoremap <F15> :exe 'vsp' stdpath('config') . '/plugins.vim'<CR>
+    nnoremap <F16> :exe 'vsp' stdpath('config') . '/keymap.vim'<CR>
+
     " leader commands {{{
     " file commands {{{
     nnoremap <Leader>q :q<CR>
