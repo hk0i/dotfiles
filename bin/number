@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+
+import sys
+import argparse
+
+
+# Utility script for numbering lines
+# Great for making lists in a markdown file
+
+
+def main():
+    args = makeParser().parse_args()
+    numberLines(sys.stdin, args.shouldStartAtZero)
+
+
+def makeParser():
+    parser = argparse.ArgumentParser(description='Number lines of input from stdin')
+
+    parser.add_argument(
+            '-0',
+            dest='shouldStartAtZero',
+            action=argparse.BooleanOptionalAction,
+            help='Start numbering from 0 instead of 1.')
+
+    return parser
+
+
+def numberLines(file, shouldStartAtZero = False):
+    number = 0 if shouldStartAtZero else 1
+    for line in file:
+        print(f'{number}. {line.strip()}')
+        number += 1
+
+
+if __name__ == '__main__':
+    main()
