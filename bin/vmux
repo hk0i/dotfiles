@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# launches vim inside a tmux split pane
+
+if [ -n "$TMUX" ]; then
+    echo "Already in tmux session, aborting."
+    exit 1
+fi
+
+tmux new-session nvim \; \
+    split-window -v \; \
+    resize-pane -y 25 \; \
+    select-pane -U \; \
+    attach
