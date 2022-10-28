@@ -5,6 +5,7 @@ abspath=$(dirname ${abspath})
 
 warning="⚠️  "
 checkmark="✅ "
+check=$checkmark
 info="ℹ️  "
 gear="⚙️ "
 
@@ -16,6 +17,9 @@ function main() {
     installNvim
     installFortune
     installMisc
+    installPython
+    installFonts
+    installLazygit
 
     . ~/.profile
     installOhMyZsh
@@ -78,7 +82,7 @@ function installVundle() {
 }
 
 function initVim() {
-	# TODO: install vim through homebrew for python3 support
+    # TODO: install vim through homebrew for python3 support
     mkdir -p ~/.vim/bak
 }
 
@@ -129,6 +133,48 @@ function installFonts() {
     # available
     # also check if they're already installed first...
     echo "$gear installing nerdfonts"
+}
+
+function installPyenv() {
+    echo "$info checking for pyenv..."
+    pyenv -h > /dev/null
+    if [ $? == 0 ]; then
+        echo "$check pyenv detected; skipping"
+        return
+    fi
+
+    brew install pyenv
+}
+
+function installPython() {
+    installPyenv
+
+    echo "$info checking for python2..."
+
+    python2 -h > /dev/null
+    if [ $? == 0 ]; then
+        echo "$check python detected; skipping"
+        return
+    fi
+
+    pyenv install 2.7.18
+    pyenv global 2.7.18
+
+    echo "$check python2 installed"
+}
+
+function installLazygit() {
+    echo "$info checking for lazygit..."
+
+    which lazygit > /dev/null
+    if [ $? == 0 ]; then
+        echo "$check lazygit detected; skipping"
+        return
+    fi
+
+    brew install lazygit
+
+    echo "$check lazygit installed"
 }
 
 main
