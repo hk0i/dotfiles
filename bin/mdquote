@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ $1 == "-p" ]]; then
+    # -p flag specifies to use pasteboard
+    echo "> "
+    pbpaste | sed "s/^/> /g"
+    echo
+    echo "> "
+
+    exit 0
+fi
+
+echo ">"
+while read line; do
+    echo "> ${line}"
+done
+
