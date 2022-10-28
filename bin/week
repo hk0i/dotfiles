@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# returns the current week of year with the word "Week" in front
+
+echo $(date +"Week %U")
