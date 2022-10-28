@@ -1,2 +1,4 @@
 .DS_Store
 .vim/bak
+
+bin/champs.json
