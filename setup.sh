@@ -3,11 +3,7 @@
 abspath=$(cd ${0%/*} && echo $PWD/${0##*/})
 abspath=$(dirname ${abspath})
 
-warning="⚠️  "
-checkmark="✅ "
-check=$checkmark
-info="ℹ️  "
-gear="⚙️ "
+source symbols.sh
 
 function main() {
     installHomebrew
