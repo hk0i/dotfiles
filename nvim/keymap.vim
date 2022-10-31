@@ -30,6 +30,7 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>w :w<CR>
     nnoremap <Leader>e :e<CR>
     nnoremap <Leader>1 :NERDTreeToggle<CR>
+    nnoremap <Leader>j :NERDTreeFind<CR>
     " }}}
 
     " zip to end of line functions
@@ -40,11 +41,18 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>n :set number!<CR>:set relativenumber!<CR>
 
     " fzf / file open
-    nnoremap <Leader>pf :Files<CR>
-    nnoremap <Leader>pg :GFiles<CR>
+    nnoremap <Leader>F :Files<CR>
+    nnoremap <Leader>f :GFiles<CR>
+    nnoremap <Leader>h :History<CR>
+    nnoremap <Leader>b :Buffers <CR>
+    nnoremap <delete> :Buffers<CR>
+    nnoremap <Leader>r :Rg <C-R><C-W><CR>
+    nnoremap <Leader>m :BLine MARK: <CR>
 
     nnoremap <Leader><Space> za
     " }}}
+    "
+    nnoremap <Leader>g :FloatermNew lazygit<CR>
 
     " easy window switching {{{
     " nnoremap <C-h> <C-w><C-h>
@@ -79,6 +87,10 @@ au! BufWritePost keymap.vim so %
        " nnoremap gj j
        " nnoremap gk k
     " }}}
+
+    " Move lines down/up with alt + j/k
+    nnoremap <M-j> ddp
+    nnoremap <M-k> ddkP
 
     " markdown mappings {{{
         "for markdown, fill blanks with ctrl g <C-g>
