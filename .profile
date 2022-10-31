@@ -15,6 +15,12 @@ pathadd /Applications/MAMP/Library/bin
 pathadd /Applications/MAMP/bin/php/php5.2.17/bin
 pathadd $(pyenv root)/shims
 
+# TODO: maybe source all scripts in $HOME/org, then move all binaries to $HOME/org/bin?
+pathadd $HOME/org/bin
+for file in $HOME/org/*; do
+    source $file
+done
+
 #add mysql dylib to dylib path
 export DYLD_LIBRARY_PATH="/usr/local/mysql/lib/"
 
@@ -35,3 +41,5 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 export EDITOR="nvim"
+
+

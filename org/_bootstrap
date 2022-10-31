@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Instructions:
+# 0. source this file.
+# 1. set a command prefix
+# 2. define functions that use the prefix
+# 3. call main function with prefix and pass all cli args
+
+# Example:
+# You work at facebook, command name could be `fb`, your script may look like:
+
+# source bootstrap
+# CMD_PREFIX="fb"
+#
+# ${CMD_PREFIX}_sayHi() {
+#     echo "hi"
+# }
+# main "fb" "$@"
+
+# you can invoke the command like this:
+# $ fb sayHi
+
+main() {
+    # don't run main function unless called as a script
+    [[ $ZSH_EVAL_CONTEXT =~ :file ]] && return
+
+    cmdName="$1"
+    if [ -z "$cmdName" ]; then
+        echo "Invalid setup, give command name:"
+        echo  "main 'mycmd'"
+    fi
+
+    # make sure we actually *did* get passed a valid function name
+    functionName="${cmdName}_${1}"
+    shift
+    if declare -f "$functionName" >/dev/null 2>&1; then
+        # invoke that function, passing arguments through
+        "$functionName" "$@" # same as "$1" "$2" "$3" ... for full argument list
+    else
+        echo "Function $1 not recognized" >&2
+        # exit 1
+    fi
+}
+
+usage() {
+    cmdName="$1"
+    echo "$cmdName <subcommand> [options]"
+}
