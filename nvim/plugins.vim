@@ -52,6 +52,8 @@ au! BufWritePost plugins.vim :so %
     "trim trailing whitespace
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'voldikss/vim-floaterm'
+    " make floaterm background normal
+    hi Floaterm guibg=black
     Plug 'alexghergh/nvim-tmux-navigation'
 
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
