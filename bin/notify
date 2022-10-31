@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+# basic notify script
+
+zparseopts -D t:=title
+
+echo "title: $title[2], message: $*"
+
+if [ ! -z "$title" ]; then
+	withTitle="with title \"$title[2]\""
+fi
+
+osascript -e "display notification \"$*\" $withTitle"
