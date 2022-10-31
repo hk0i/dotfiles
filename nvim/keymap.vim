@@ -32,6 +32,13 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>1 :NERDTreeToggle<CR>
     " }}}
 
+    " zip to end of line functions
+    nnoremap <Leader>z x$p
+    " zip to character before last, useful for avoiding semicolons
+    nnoremap <Leader>Z x$P
+
+    nnoremap <Leader>n :set number!<CR>:set relativenumber!<CR>
+
     " fzf / file open
     nnoremap <Leader>pf :Files<CR>
     nnoremap <Leader>pg :GFiles<CR>
