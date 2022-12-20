@@ -24,11 +24,12 @@ au! BufWritePost plugins.vim :so %
         let g:gist_open_browser_after_post = 1
     " }
 
-    Plug 'kballard/vim-swift'
     Plug 'scrooloose/syntastic'
     Plug 'scrooloose/nerdtree'
     Plug 'bling/vim-airline'
     Plug 'airblade/vim-gitgutter'
+    Plug 'numToStr/Comment.nvim'
+    " Somewhere after plug#end()
 
     Plug 'Valloric/YouCompleteMe' " {
         let g:ycm_key_list_select_completion = [ '<Down', '<C-n>' ]
@@ -62,3 +63,6 @@ au! BufWritePost plugins.vim :so %
     call plug#end()
 
 " }}}
+
+" for Comment.nvim
+lua require('Comment').setup()
