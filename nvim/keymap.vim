@@ -25,6 +25,7 @@ au! BufWritePost keymap.vim so %
 
     " leader commands {{{
     " file commands {{{
+    nnoremap <Leader>bd :bd<CR>
     nnoremap <Leader>q :q<CR>
     nnoremap <Leader>Q :qall<CR>
     nnoremap <Leader>w :w<CR>
@@ -32,6 +33,13 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>1 :NERDTreeToggle<CR>
     nnoremap <Leader>j :NERDTreeFind<CR>
     " }}}
+
+    vnoremap <Leader>i :!swiftformat --quiet --fragment true<CR>
+    vnoremap <Leader>p :!swift-autoinit<CR>
+    vnoremap <Leader>s :!sort<CR>
+    nnoremap <Leader>s vip:!sort<CR>
+    vnoremap <Leader>c :!swift-chomp-args<CR>
+    nnoremap <Leader>c V:!swift-chomp-args<CR>
 
     " zip to end of line functions
     nnoremap <Leader>z x$p
@@ -47,6 +55,7 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>b :Buffers <CR>
     nnoremap <delete> :Buffers<CR>
     nnoremap <Leader>r :Rg <C-R><C-W><CR>
+    nnoremap <Leader>R :Rg 
     nnoremap <Leader>m :BLine MARK: <CR>
 
     nnoremap <Leader><Space> za
@@ -91,6 +100,8 @@ au! BufWritePost keymap.vim so %
     " Move lines down/up with alt + j/k
     nnoremap <M-j> ddp
     nnoremap <M-k> ddkP
+    nnoremap <M-]> :bn<CR>
+    nnoremap <M-[> :bp<CR>
 
     " markdown mappings {{{
         "for markdown, fill blanks with ctrl g <C-g>
