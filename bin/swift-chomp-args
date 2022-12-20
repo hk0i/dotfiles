@@ -3,50 +3,46 @@
 import sys
 from swiftpy.core import find_indentation, find_parameters, find_function_name, indent
 
-# TODO:
-# - capture return values `-> whatever` and output those too.
-# - chomping fails when types are subtypes like `ImageViewPresenter.Content`
-# - chomping fails when types have default values: `someParam: Bool = true`
-# - chomping fails when types are optional: `someParam: String?`
-# - chomping fails when preceded by an argument label:
-#     someFunc(
-#       someArg: ButThis(needs: toBe, chomped: onDown)
-#     )
+def main(string):
+    print(chomp(string))
+
 
 def chomp(string):
     """
     Chomps parameters lists to one per line.
-    Still needs to capture '{', capture list, etc. (funky with funcs)
     """
+
     output = ""
     indentation = ""
-    function_name = ""
+    is_last = False
 
     for line in string:
         if not output:
-            # is first line
             indentation = find_indentation(line)
+            indentation_2 = indentation * 2 if len(indentation) > 1 else '    '
 
-        function_name = find_function_name(line)
-        if function_name and function_name.group(1):
-            print(
-                function_name.group(1) + '(',
-            )
+        chomped = line.split(',')
+        for index, component in enumerate(chomped):
+            if not output:
+                parts = component.split('(')
+                if len(parts) > 1:
+                    output += f'{indentation}{parts[0].strip()}(\n'
+                    component = parts[1]
 
+            if index == len(chomped) - 1:
+                parts = component.split(')')
+                if len(parts) > 1:
+                    output += f'{indentation_2}{parts[0].strip()}\n{indentation}) '
+                    component = parts[1].strip()
+                    indentation_2 = indentation
+                    is_last = True
 
-        indent_length = len(indentation)
-        next_indent = indent_length * 2
-        if indent_length == 0:
-            next_indent = 2
+            if not is_last:
+                output += indentation_2
+            output += f'{component.strip()}\n'
 
-        parameters = find_parameters(line)
-        print(',\n'.join(f'{" " * next_indent}{param}' for param in parameters))
-        if parameters:
-            print(indent(')', default_size = indent_length))
+    return output.rstrip()
 
-
-def main(string):
-    chomp(string)
 
 if __name__ == '__main__':
     main(sys.stdin)
