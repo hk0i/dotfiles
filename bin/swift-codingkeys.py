@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+
+import sys
+from swiftpy.core import find_indentation, find_var_declare
+
+
+def make_codingkeys(commented):
+    """ generates codable structure with CodingKeys struct from a space delimited set of strings
+
+    given:
+
+        let stateList: [String] //state_list
+        let didSucceed: Bool // success
+
+    we will generate:
+
+        enum CodingKeys: String, CodingKey {
+            case stateList = "state_list"
+            case didSucceed = "success"
+        }
+
+    """
+    output = ""
+    variables = []
+    coding_keys = ""
+
+    for line in commented:
+        if not coding_keys:
+            indent = find_indentation(line)
+            coding_keys += f"\n{indent}struct CodingKeys: String, CodingKey {{\n"
+
+        var = find_var_declare(line)
+
+        if var and var.group(2):
+            var_name = var.group(2)
+            coding_keys += f"{indent * 2}case {var_name}"
+            coded_name = line.split('//')
+            if len(coded_name) > 1:
+                coded = coded_name[1].strip()
+                coding_keys += f' = "{coded}"'
+            coding_keys += "\n"
+
+        output += line
+
+    coding_keys += f"{indent}}}"
+    output += coding_keys
+    print(output)
+
+
+if __name__ == "__main__":
+    make_codingkeys(sys.stdin)
+
+

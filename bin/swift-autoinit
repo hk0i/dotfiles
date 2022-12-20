@@ -1,39 +1,24 @@
 #!/usr/bin/env python3
 
 import sys
-import re
 
+from swiftpy.core import find_indentation, find_parameters
 
-def find_indentation(string):
-    indentation = ""
-    indent_match = re.match("\s*", line)
-    if indent_match:
-        indentation = indent_match.group(0)
-    return indentation
-
-
-
-# [\w\d]+ represents a valid identifier
-parameter_regex = r"([\w\d]+:\s*[\w\d]+)"
-parameter_finder = re.compile(parameter_regex)
 
 declarations = ""
 init_lines = ""
-first_line = True
 indentation = ""
 body_lines = ""
 
 
 for line in sys.stdin:
-    if first_line:
+    if not declarations:
         indentation = find_indentation(line)
-        first_line = False
 
-    matches = parameter_finder.findall(line)
-    for parameter in matches:
+    for parameter in find_parameters(line):
         declarations += f"{indentation}let {parameter}\n"
         parameter_name = parameter.split(":")[0]
-        body_lines += f"{indentation}{indentation}self.{parameter_name} = {parameter_name}\n"
+        body_lines += f"{indentation * 2}self.{parameter_name} = {parameter_name}\n"
 
     init_lines += line
 
