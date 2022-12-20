@@ -19,7 +19,7 @@ def chomp(string):
     for line in string:
         if not output:
             indentation = find_indentation(line)
-            indentation_2 = indentation * 2 if len(indentation) > 1 else '    '
+            indentation_2 = indentation + '    ' if len(indentation) > 1 else '    '
 
         chomped = line.split(',')
         for index, component in enumerate(chomped):
@@ -39,7 +39,10 @@ def chomp(string):
 
             if not is_last:
                 output += indentation_2
-            output += f'{component.strip()}\n'
+            output += f'{component.strip()}'
+            if not is_last:
+                output += ','
+            output += '\n'
 
     return output.rstrip()
 
