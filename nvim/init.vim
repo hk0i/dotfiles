@@ -249,3 +249,7 @@ function! OscCopy()
   redraw!
 endfunction
 command! OscCopy :call OscCopy()
+
+" make CursorLine appear with a background, like CursorColumn
+hi clear CursorLine
+hi link CursorLine CursorColumn
