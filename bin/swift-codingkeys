@@ -27,7 +27,7 @@ def make_codingkeys(commented):
     for line in commented:
         if not coding_keys:
             indent = find_indentation(line)
-            coding_keys += f"\n{indent}struct CodingKeys: String, CodingKey {{\n"
+            coding_keys += f"\n{indent}enum CodingKeys: String, CodingKey {{\n"
 
         var = find_var_declare(line)
 
@@ -40,7 +40,7 @@ def make_codingkeys(commented):
                 coding_keys += f' = "{coded}"'
             coding_keys += "\n"
 
-        output += line
+        output += coded_name[0].rstrip() + '\n'
 
     coding_keys += f"{indent}}}"
     output += coding_keys
