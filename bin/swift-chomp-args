@@ -1,10 +1,63 @@
 #!/usr/bin/env python3
 
 import sys
-from swiftpy.core import find_indentation, find_parameters, find_function_name, indent
+
+from swiftpy.core import find_indentation
+
 
 def main(string):
     print(chomp(string))
+
+
+def chomp_basic(string, indent_spaces=4, max_level=1):
+    """
+    Chomps parameters lists to one per line.
+    """
+
+    output = ""
+    base_indentation = ""
+    one_indent = ' ' * indent_spaces
+
+    for line in string:
+        if not output:
+            base_indentation = find_indentation(line)
+
+        buffer = ""
+        level = 0
+        for char in line:
+
+            if char == '(':
+                buffer += char
+                level += 1
+
+                if level <= max_level:
+                    output += buffer
+                    buffer = ""
+
+                    output += f'\n{base_indentation}'
+                    output += one_indent * level
+
+            elif char == ',' and level <= max_level:
+                buffer += char
+                output += f'{buffer}\n{base_indentation}' + (one_indent * level)
+                buffer = ""
+
+            elif char == ')':
+                level -= 1
+
+                if level == 0:
+                    output += f'{buffer}\n{base_indentation})'
+                    buffer = ''
+                else:
+                    buffer += char
+
+            else:
+                buffer += char
+
+        output += buffer.lstrip()
+
+
+    return output.rstrip()
 
 
 def chomp(string):
