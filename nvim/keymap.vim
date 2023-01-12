@@ -38,6 +38,7 @@ au! BufWritePost keymap.vim so %
     vnoremap <Leader>p :!swift-autoinit<CR>
     vnoremap <Leader>s :!sort<CR>
     nnoremap <Leader>s vip:!sort<CR>
+
     vnoremap <Leader>c :!swift-chomp-args<CR>
     nnoremap <Leader>c V:!swift-chomp-args<CR>
 
@@ -59,9 +60,8 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>m :BLine MARK: <CR>
 
     nnoremap <Leader><Space> za
-    " }}}
-    "
     nnoremap <Leader>g :FloatermNew lazygit<CR>
+    " }}}
 
     " easy window switching {{{
     " nnoremap <C-h> <C-w><C-h>
