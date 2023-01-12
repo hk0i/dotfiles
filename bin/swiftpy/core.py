@@ -1,4 +1,6 @@
 import re
+from dataclasses import dataclass, field
+
 
 def find_indentation(string, default_size=2):
     """ finds the current line indentation """
@@ -9,13 +11,12 @@ def find_indentation(string, default_size=2):
     return indentation
 
 
-
 # [\w\d]+ represents a valid identifier
-parameter_regex = r"([\w\d]+:\s*[\w\d]+)"
+parameter_regex = r"([\w]+:\s*[\w]+)"
 parameter_finder = re.compile(parameter_regex)
 find_parameters = parameter_finder.findall
 
-function_name_regex = r"([\w\d\s\.]+\s*)\("
+function_name_regex = r"([\w\s\.]+\s*)\("
 function_finder = re.compile(function_name_regex)
 find_function_name = function_finder.search
 
@@ -40,3 +41,32 @@ def indentation(captured, default_size=2):
 def indent(string, times=1, default_size=2):
     indent = ' ' * default_size * times
     return f'{indent}{string}'
+
+
+def parse_function(string: str) -> 'Function':
+    function_regex = r'(\w+)\('
+
+    func_matches = re.search(function_regex, string)
+    if not func_matches:
+        return Function(name="UNKNOWN")
+
+    name = func_matches[1]
+
+    parameter_regex = r'(\w+):'
+    parameter_matches = re.findall(parameter_regex, string)
+
+    if not parameter_matches:
+        return Function(name)
+        # return f'{name}()'
+
+    return Function(name, parameter_matches)
+
+
+@dataclass
+class Function:
+    name: str
+    parameters: [str] = field(default_factory=list)
+
+    def __str__(self):
+        parameters = ':'.join(self.parameters) + ':' if len(self.parameters) > 0 else ''
+        return f'{self.name}({parameters})'
