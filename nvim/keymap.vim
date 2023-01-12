@@ -79,6 +79,8 @@ au! BufWritePost keymap.vim so %
 
     noremap Q gq
     vnoremap Q gq
+    " select last put (pasted) line
+    nnoremap gp `[v`]
 
     " date inserters {{{
     :nnoremap <F5> "=strftime("%Y-%m-%d %H:%M:%S %z")<CR>
