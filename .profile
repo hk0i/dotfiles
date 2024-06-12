@@ -15,7 +15,6 @@ pathadd /Applications/MAMP/Library/bin
 pathadd /Applications/MAMP/bin/php/php5.2.17/bin
 pathadd $(pyenv root)/shims
 
-# TODO: maybe source all scripts in $HOME/org, then move all binaries to $HOME/org/bin?
 pathadd $HOME/org/bin
 for file in $HOME/org/*; do
     source $file
