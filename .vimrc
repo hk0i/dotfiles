@@ -1,6 +1,6 @@
 let mapleader=","
 
-so ~/.vim/rc/plugins.vim
+" so ~/.vim/rc/plugins.vim
 
 " Stuff from the sample vimrc {{{
     " An example for a vimrc file.
@@ -101,7 +101,7 @@ so ~/.vim/rc/plugins.vim
     endif
 " }}}
 
-colorscheme obsidian2 "requires the 'plugin'
+" colorscheme obsidian2 "requires the 'plugin'
 
 "all `set` settings {{{
 
@@ -232,4 +232,4 @@ augroup END
     "}}}
 " }}}
 
-so ~/.vim/rc/keymap.vim
+" so ~/.vim/rc/keymap.vim
