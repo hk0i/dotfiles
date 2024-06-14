@@ -1,0 +1,14 @@
+# default swiftformat configuration
+
+--elseposition next-line
+--indentcase
+
+--wrapparameters before-first
+--wrapcollections before-first
+
+
+# opt-in options
+
+--blankLineAfterSwitchCase
+--isEmpty # prefer isEmpty to count == 0
+--redundantProperty
