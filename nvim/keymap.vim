@@ -63,20 +63,6 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>g :FloatermNew lazygit<CR>
     " }}}
 
-    " easy window switching {{{
-    " nnoremap <C-h> <C-w><C-h>
-    " nnoremap <C-j> <C-w><C-j>
-    " nnoremap <C-k> <C-w><C-k>
-    " nnoremap <C-l> <C-w><C-l>
-    " The tmux-navigator way (nvim-tmux-navigation)
-    nnoremap <silent> <C-h> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateLeft()<cr>
-    nnoremap <silent> <C-j> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateDown()<cr>
-    nnoremap <silent> <C-k> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateUp()<cr>
-    nnoremap <silent> <C-l> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateRight()<cr>
-    nnoremap <silent> <C-\> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateLastActive()<cr>
-    nnoremap <silent> <C-Space> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateNext()<cr>
-    " }}}
-
     noremap Q gq
     vnoremap Q gq
     " select last put (pasted) line
