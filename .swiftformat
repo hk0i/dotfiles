@@ -10,5 +10,5 @@
 # opt-in options
 
 --blankLineAfterSwitchCase
---isEmpty # prefer isEmpty to count == 0
+--isEmpty                    # prefer isEmpty to count == 0
 --redundantProperty
