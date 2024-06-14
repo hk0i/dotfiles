@@ -50,11 +50,11 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>n :set number!<CR>:set relativenumber!<CR>
 
     " fzf / file open
-    nnoremap <Leader>F :Files<CR>
-    nnoremap <Leader>f :GFiles<CR>
-    nnoremap <Leader>h :History<CR>
-    nnoremap <Leader>b :Buffers <CR>
-    nnoremap <delete> :Buffers<CR>
+    nnoremap <Leader>F :Telescope find_files<CR>
+    nnoremap <Leader>f :Telescope git_files<CR>
+    nnoremap <Leader>h :Telescope command_history<CR>
+    nnoremap <Leader>b :Telescope buffers<CR>
+    nnoremap <delete> :Telescope buffers<CR>
     nnoremap <Leader>r :Rg <C-R><C-W><CR>
     nnoremap <Leader>R :Rg 
     nnoremap <Leader>m :BLine MARK: <CR>
