@@ -31,6 +31,9 @@ if matches:
 existing_link_pattern = re.compile(r'^\[([^\]]+)\]:', re.MULTILINE)
 existing_links = existing_link_pattern.findall(document)
 
+if existing_links:
+    document = document.rstrip('\n')
+
 print document
 
 if existing_links:
