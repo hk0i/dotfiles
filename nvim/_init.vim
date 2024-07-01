@@ -1,8 +1,5 @@
 let mapleader=" "
 
-"set rtp+=stdpath('config')
-runtime plugins.vim
-
 " Stuff from the sample vimrc {{{
     " An example for a vimrc file.
     "
