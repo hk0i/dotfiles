@@ -55,8 +55,8 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>h :Telescope command_history<CR>
     nnoremap <Leader>b :Telescope buffers<CR>
     nnoremap <delete> :Telescope buffers<CR>
-    nnoremap <Leader>r :Rg <C-R><C-W><CR>
-    nnoremap <Leader>R :Rg 
+    nnoremap <Leader>R :Telescope live_grep default_text=<C-R><C-W><CR>
+    nnoremap <Leader>r :Telescope live_grep<CR>
     nnoremap <Leader>m :BLine MARK: <CR>
 
     nnoremap <Leader><Space> za
