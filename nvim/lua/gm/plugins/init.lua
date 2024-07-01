@@ -4,4 +4,5 @@ return {
   'bling/vim-airline',
   'mg979/vim-visual-multi',
   'voldikss/vim-floaterm',
+  'ntpeters/vim-better-whitespace',
 }
