@@ -28,8 +28,11 @@ def makeParser():
 def numberLines(file, shouldStartAtZero = False):
     number = 0 if shouldStartAtZero else 1
     for line in file:
-        print(f'{number}. {line.strip()}')
-        number += 1
+        if not line.strip():
+            print()
+        else:
+            print(f'{number}. {line.strip()}')
+            number += 1
 
 
 if __name__ == '__main__':
