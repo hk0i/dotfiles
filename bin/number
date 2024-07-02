@@ -10,7 +10,7 @@ import argparse
 
 def main():
     args = makeParser().parse_args()
-    numberLines(sys.stdin, args.shouldStartAtZero)
+    numberLines(sys.stdin, args.shouldStartAtZero, args.shouldBoldMarkdown)
 
 
 def makeParser():
@@ -22,16 +22,27 @@ def makeParser():
             action=argparse.BooleanOptionalAction,
             help='Start numbering from 0 instead of 1.')
 
+    parser.add_argument(
+            '-b',
+            dest='shouldBoldMarkdown',
+            action=argparse.BooleanOptionalAction,
+            help='Surround each line in **markdown bold**')
+
     return parser
 
 
-def numberLines(file, shouldStartAtZero = False):
+def numberLines(file, shouldStartAtZero = False, shouldBoldMarkdown = False):
     number = 0 if shouldStartAtZero else 1
     for line in file:
         if not line.strip():
             print()
         else:
-            print(f'{number}. {line.strip()}')
+            line = line.strip()
+            if shouldBoldMarkdown:
+                line = f'**{line}**'
+            line = f'{number}. {line}'
+
+            print(line)
             number += 1
 
 
