@@ -13,17 +13,19 @@ return {
     local opts = { noremap = true, silent = true }
     local on_attach = function(_, bufnr)
       opts.buffer = bufnr
- 
+
       opts.desc = "Show line diagnostics"
       vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
- 
+
       opts.desc = "Show documentation for what is under cursor"
       vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
     end
- 
+
     lspconfig["sourcekit"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
     })
+
+    lspconfig.jedi_language_server.setup{}
   end,
 }
