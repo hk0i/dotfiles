@@ -2,6 +2,7 @@
 
 import sys
 import argparse
+import re
 
 
 # Utility script for numbering lines
@@ -10,7 +11,7 @@ import argparse
 
 def main():
     args = makeParser().parse_args()
-    numberLines(sys.stdin, args.shouldStartAtZero, args.shouldBoldMarkdown)
+    numberLines(sys.stdin, args.shouldStartAtZero, args.shouldBoldMarkdown, args.shouldRenumberLines)
 
 
 def makeParser():
@@ -28,16 +29,26 @@ def makeParser():
             action=argparse.BooleanOptionalAction,
             help='Surround each line in **markdown bold**')
 
+    parser.add_argument(
+            '-r',
+            dest='shouldRenumberLines',
+            action=argparse.BooleanOptionalAction,
+            help='Replace existing numbers on lines and start over from 1')
+
     return parser
 
 
-def numberLines(file, shouldStartAtZero = False, shouldBoldMarkdown = False):
+def numberLines(file, shouldStartAtZero = False, shouldBoldMarkdown = False, shouldRenumberLines = False):
     number = 0 if shouldStartAtZero else 1
     for line in file:
         if not line.strip():
             print()
         else:
             line = line.strip()
+
+            if shouldRenumberLines:
+                line = re.sub(r'^\d+\.\s+', '', line)
+
             if shouldBoldMarkdown:
                 line = f'**{line}**'
             line = f'{number}. {line}'
