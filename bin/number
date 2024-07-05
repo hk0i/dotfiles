@@ -11,7 +11,13 @@ import re
 
 def main():
     args = makeParser().parse_args()
-    numberLines(sys.stdin, args.shouldStartAtZero, args.shouldBoldMarkdown, args.shouldRenumberLines)
+
+    if args.startFrom:
+        startFrom = args.startFrom
+    else:
+        startFrom = 0 if args.shouldStartAtZero else 1
+
+    numberLines(sys.stdin, startFrom, args.shouldBoldMarkdown, args.shouldRenumberLines)
 
 
 def makeParser():
@@ -35,11 +41,17 @@ def makeParser():
             action=argparse.BooleanOptionalAction,
             help='Replace existing numbers on lines and start over from 1')
 
+    parser.add_argument(
+            '-s',
+            dest='startFrom',
+            type=int,
+            help='Start numbering from this number instead of the default: `1`')
+
     return parser
 
 
-def numberLines(file, shouldStartAtZero = False, shouldBoldMarkdown = False, shouldRenumberLines = False):
-    number = 0 if shouldStartAtZero else 1
+def numberLines(file, startFrom, shouldBoldMarkdown = False, shouldRenumberLines = False):
+    number = startFrom
     for line in file:
         if not line.strip():
             print()
