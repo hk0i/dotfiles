@@ -14,6 +14,7 @@ def make_parser():
             action=argparse.BooleanOptionalAction,
             help='Surround each word with a separate kbd tag and combine with a +')
 
+
 def kbd_words(line):
     ''' surround each word with <kbd></kbd> '''
     words = line.split()
@@ -25,16 +26,20 @@ def kbd_words(line):
         if i < count - 1:
             print(' + ', end='')
 
+
 pipes = re.compile(r'\|([^\|]+)\|')
+
 
 def kbd_pipes(line):
     ''' Apply |key| rules and |combination + key| rules '''
     # for single keys: |W|
     print(kbd(line), end='')
 
+
 def kbd(word):
     ''' replace occurrences of |something| with <kbd>something</kbd> '''
     return pipes.sub('<kbd>\\1</kbd>', word)
+
 
 
 def main(input, should_separate_words = False):
