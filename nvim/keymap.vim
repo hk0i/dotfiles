@@ -97,6 +97,7 @@ au! BufWritePost keymap.vim so %
         au Filetype mkd,markdown :set spell
         " use S for "strong" since tmux uses C-b
         au Filetype mkd,markdown :inoremap <C-s> ****<esc>hi
+        au Filetype mkd,markdown :vnoremap <Leader>k :!kbd<CR>
         augroup end
     " }}}
 
