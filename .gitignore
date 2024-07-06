@@ -14,3 +14,5 @@ nvim/shada/
 nvim/site/
 nvim/plugged/
 nvim/.netrwhist
+
+*.pyc
