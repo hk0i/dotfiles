@@ -30,8 +30,6 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>Q :qall<CR>
     nnoremap <Leader>w :w<CR>
     nnoremap <Leader>e :e<CR>
-    nnoremap <Leader>1 :NERDTreeToggle<CR>
-    nnoremap <Leader>j :NERDTreeFind<CR>
     " }}}
 
     vnoremap <Leader>i :!swiftformat --quiet --fragment true<CR>
