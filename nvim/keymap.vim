@@ -95,6 +95,8 @@ au! BufWritePost keymap.vim so %
         au!
         au FileType mkd,markdown :nnoremap <C-g> :%!~/bin/mdlinks<CR>
         au Filetype mkd,markdown :set spell
+        " use S for "strong" since tmux uses C-b
+        au Filetype mkd,markdown :inoremap <C-s> ****<esc>hi
         augroup end
     " }}}
 
