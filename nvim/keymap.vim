@@ -43,6 +43,8 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>Z x$P
 
     nnoremap <Leader>n :set number!<CR>:set relativenumber!<CR>
+    " renumber lines
+    vnoremap <Leader>n :!number -r<CR>
 
     " fzf / file open
     nnoremap <Leader>F :Telescope find_files<CR>
