@@ -1,7 +1,7 @@
 return {
   "neovim/nvim-lspconfig",
-  event = { "BufReadPre", "BufNewFile" },
   dependencies = {
+  event = { "BufReadPre", "BufNewFile" },
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
   },
@@ -19,7 +19,14 @@ return {
 
       opts.desc = "Show documentation for what is under cursor"
       vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+      -- vnoremap <Leader>c :!swift-chomp-args<CR>
+      -- nnoremap <Leader>c V:!swift-chomp-args<CR>
+
     end
+
+    opts.desc = 'Rename variable'
+    vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, opts)
 
     lspconfig["sourcekit"].setup({
       capabilities = capabilities,

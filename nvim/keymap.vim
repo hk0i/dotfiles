@@ -39,9 +39,6 @@ au! BufWritePost keymap.vim so %
     vnoremap <Leader>s :!sort<CR>
     nnoremap <Leader>s vip:!sort<CR>
 
-    vnoremap <Leader>c :!swift-chomp-args<CR>
-    nnoremap <Leader>c V:!swift-chomp-args<CR>
-
     " zip to end of line functions
     nnoremap <Leader>z x$p
     " zip to character before last, useful for avoiding semicolons
@@ -55,8 +52,8 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>h :Telescope command_history<CR>
     nnoremap <Leader>b :Telescope buffers<CR>
     nnoremap <delete> :Telescope buffers<CR>
-    nnoremap <Leader>R :Telescope live_grep default_text=<C-R><C-W><CR>
-    nnoremap <Leader>r :Telescope live_grep<CR>
+    nnoremap <Leader>P :Telescope live_grep default_text=<C-R><C-W><CR>
+    nnoremap <Leader>p :Telescope live_grep<CR>
     nnoremap <Leader>m :BLine MARK: <CR>
 
     nnoremap <Leader><Space> za
