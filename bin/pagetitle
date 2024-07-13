@@ -9,7 +9,11 @@ from argparse import ArgumentParser, BooleanOptionalAction
 
 def main():
     args = make_parser().parse_args()
-    print(fetch_title(args.url))
+    title = fetch_title(args.url)
+    if args.should_output_markdown:
+        title = markdown_link(args.url, title)
+
+    print(title)
 
 
 def make_parser():
@@ -52,6 +56,9 @@ class TitleParser(HTMLParser):
             self.title = data
             self.match = False
 
+
+def markdown_link(url, title):
+    return f'[{title}]({url})'
 
 if __name__ == '__main__':
     main()
