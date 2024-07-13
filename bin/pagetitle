@@ -4,6 +4,29 @@
 
 from urllib.request import urlopen
 from html.parser import HTMLParser
+from argparse import ArgumentParser, BooleanOptionalAction
+
+
+def main():
+    args = make_parser().parse_args()
+    print(fetch_title(args.url))
+
+
+def make_parser():
+    parser = ArgumentParser(description='Fetch title from webpage')
+
+    # positional url argument
+    parser.add_argument('url')
+
+    parser.add_argument(
+            '-m',
+            '--markdown',
+            dest='should_output_markdown',
+            action=BooleanOptionalAction,
+            help='Outputs a markdown link using the title and url')
+
+    return parser
+
 
 class TitleParser(HTMLParser):
     """ Parses the title of the given HTML string """
@@ -21,9 +44,14 @@ class TitleParser(HTMLParser):
             self.title = data
             self.match = False
 
-url = 'https://www.youtube.com/watch?v=etPAxdxrMlU'
-html_string = str(urlopen(url).read())
 
-parser = TitleParser()
-parser.feed(html_string)
-print(parser.title)
+def fetch_title(url):
+    html_string = str(urlopen(url).read())
+
+    parser = TitleParser()
+    parser.feed(html_string)
+    return parser.title
+
+
+if __name__ == '__main__':
+    main()
