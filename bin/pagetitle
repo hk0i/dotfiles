@@ -2,6 +2,7 @@
 
 # python script to fetch the title of a webpage
 
+import sys
 from urllib.request import urlopen
 from html.parser import HTMLParser
 from argparse import ArgumentParser, BooleanOptionalAction
@@ -9,9 +10,17 @@ from argparse import ArgumentParser, BooleanOptionalAction
 
 def main():
     args = make_parser().parse_args()
-    title = fetch_title(args.url)
-    if args.should_output_markdown:
-        title = markdown_link(args.url, title)
+    if args.should_read_stdin:
+        read(sys.stdin)
+    else:
+        process(args.url, args.should_output_markdown)
+
+
+def process(url, should_output_markdown = False):
+    """ Process a single URL according to the rules we set """
+    title = fetch_title(url)
+    if should_output_markdown:
+        title = markdown_link(url, title)
 
     print(title)
 
@@ -20,7 +29,10 @@ def make_parser():
     parser = ArgumentParser(description='Fetch title from webpage')
 
     # positional url argument
-    parser.add_argument('url')
+    parser.add_argument(
+            '-u',
+            '--url',
+            help='A single url to fetch')
 
     parser.add_argument(
             '-m',
@@ -29,7 +41,21 @@ def make_parser():
             action=BooleanOptionalAction,
             help='Outputs a markdown link using the title and url')
 
+    parser.add_argument(
+            '-i',
+            '--stdin',
+            dest='should_read_stdin',
+            action=BooleanOptionalAction,
+            help='Read inputs from stdin')
+
     return parser
+
+
+def read(lines):
+    """ reads and processes lines from stdin """
+    for line in lines:
+        url = line.strip()
+        process(url)
 
 
 def fetch_title(url):
