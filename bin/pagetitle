@@ -28,6 +28,14 @@ def make_parser():
     return parser
 
 
+def fetch_title(url):
+    html_string = str(urlopen(url).read())
+
+    parser = TitleParser()
+    parser.feed(html_string)
+    return parser.title
+
+
 class TitleParser(HTMLParser):
     """ Parses the title of the given HTML string """
 
@@ -43,14 +51,6 @@ class TitleParser(HTMLParser):
         if self.match:
             self.title = data
             self.match = False
-
-
-def fetch_title(url):
-    html_string = str(urlopen(url).read())
-
-    parser = TitleParser()
-    parser.feed(html_string)
-    return parser.title
 
 
 if __name__ == '__main__':
