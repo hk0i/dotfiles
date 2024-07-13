@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+
+# python script to fetch the title of a webpage
+
+from urllib.request import urlopen
+from html.parser import HTMLParser
+
+class TitleParser(HTMLParser):
+    """ Parses the title of the given HTML string """
+
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.match = False
+        self.title = ''
+
+    def handle_starttag(self, tag, attributes):
+        self.match = tag == 'title'
+
+    def handle_data(self, data):
+        if self.match:
+            self.title = data
+            self.match = False
+
+url = 'https://www.youtube.com/watch?v=etPAxdxrMlU'
+html_string = str(urlopen(url).read())
+
+parser = TitleParser()
+parser.feed(html_string)
+print(parser.title)
