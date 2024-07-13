@@ -1,8 +1,5 @@
 let mapleader=" "
 
-"set rtp+=stdpath('config')
-runtime plugins.vim
-
 " Stuff from the sample vimrc {{{
     " An example for a vimrc file.
     "
@@ -253,3 +250,5 @@ command! OscCopy :call OscCopy()
 " make CursorLine appear with a background, like CursorColumn
 hi clear CursorLine
 hi link CursorLine CursorColumn
+
+" lua require 'init'

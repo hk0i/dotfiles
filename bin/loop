@@ -1,0 +1,9 @@
+#/usr/bin/bash
+# quickly test looping shorts
+
+if [[ ! -n "$1" ]]; then
+    echo "Usage: $(basename $0) <video>"
+    exit 1
+fi
+
+mplayer "$1" -loop 0

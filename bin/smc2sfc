@@ -1,0 +1,26 @@
+#/usr/bin/bash
+
+_smc2sfc() {
+    input="$1"
+    output="${input%.*}.sfc"
+
+    if [[ -f "$output" ]]; then
+        echo "File already exists: \`$output\`"
+        return 2
+    fi
+
+    echo "Writing $output ..."
+    dd bs=512 skip=1 if="$input" of="$output"
+}
+
+if [[ "$1" == "-a" ]]; then
+    echo "batching ..."
+    for file in *.smc; do
+        _smc2sfc "$file"
+    done
+elif [[ -z "$1" ]]; then
+    echo "Usage: smc2sfc [rom].smc"
+    exit 1
+else
+    _smc2sfc "$1"
+fi

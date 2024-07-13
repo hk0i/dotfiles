@@ -30,8 +30,6 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>Q :qall<CR>
     nnoremap <Leader>w :w<CR>
     nnoremap <Leader>e :e<CR>
-    nnoremap <Leader>1 :NERDTreeToggle<CR>
-    nnoremap <Leader>j :NERDTreeFind<CR>
     " }}}
 
     vnoremap <Leader>i :!swiftformat --quiet --fragment true<CR>
@@ -39,42 +37,27 @@ au! BufWritePost keymap.vim so %
     vnoremap <Leader>s :!sort<CR>
     nnoremap <Leader>s vip:!sort<CR>
 
-    vnoremap <Leader>c :!swift-chomp-args<CR>
-    nnoremap <Leader>c V:!swift-chomp-args<CR>
-
     " zip to end of line functions
     nnoremap <Leader>z x$p
     " zip to character before last, useful for avoiding semicolons
     nnoremap <Leader>Z x$P
 
     nnoremap <Leader>n :set number!<CR>:set relativenumber!<CR>
+    " renumber lines
+    vnoremap <Leader>n :!number -r<CR>
 
     " fzf / file open
-    nnoremap <Leader>F :Files<CR>
-    nnoremap <Leader>f :GFiles<CR>
-    nnoremap <Leader>h :History<CR>
-    nnoremap <Leader>b :Buffers <CR>
-    nnoremap <delete> :Buffers<CR>
-    nnoremap <Leader>r :Rg <C-R><C-W><CR>
-    nnoremap <Leader>R :Rg 
+    nnoremap <Leader>F :Telescope find_files<CR>
+    nnoremap <Leader>f :Telescope git_files<CR>
+    nnoremap <Leader>h :Telescope command_history<CR>
+    nnoremap <Leader>b :Telescope buffers<CR>
+    nnoremap <delete> :Telescope buffers<CR>
+    nnoremap <Leader>P :Telescope live_grep default_text=<C-R><C-W><CR>
+    nnoremap <Leader>p :Telescope live_grep<CR>
     nnoremap <Leader>m :BLine MARK: <CR>
 
     nnoremap <Leader><Space> za
     nnoremap <Leader>g :FloatermNew lazygit<CR>
-    " }}}
-
-    " easy window switching {{{
-    " nnoremap <C-h> <C-w><C-h>
-    " nnoremap <C-j> <C-w><C-j>
-    " nnoremap <C-k> <C-w><C-k>
-    " nnoremap <C-l> <C-w><C-l>
-    " The tmux-navigator way (nvim-tmux-navigation)
-    nnoremap <silent> <C-h> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateLeft()<cr>
-    nnoremap <silent> <C-j> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateDown()<cr>
-    nnoremap <silent> <C-k> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateUp()<cr>
-    nnoremap <silent> <C-l> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateRight()<cr>
-    nnoremap <silent> <C-\> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateLastActive()<cr>
-    nnoremap <silent> <C-Space> :lua require'nvim-tmux-navigation'.NvimTmuxNavigateNext()<cr>
     " }}}
 
     noremap Q gq
@@ -112,6 +95,9 @@ au! BufWritePost keymap.vim so %
         au!
         au FileType mkd,markdown :nnoremap <C-g> :%!~/bin/mdlinks<CR>
         au Filetype mkd,markdown :set spell
+        " use S for "strong" since tmux uses C-b
+        au Filetype mkd,markdown :inoremap <C-s> ****<esc>hi
+        au Filetype mkd,markdown :vnoremap <Leader>k :!kbd<CR>
         augroup end
     " }}}
 

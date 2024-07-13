@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+
+# python script to fetch the title of a webpage
+
+import sys
+from urllib.request import urlopen, Request
+from html.parser import HTMLParser
+from argparse import ArgumentParser, BooleanOptionalAction
+
+
+def main():
+    args = make_parser().parse_args()
+    if args.should_read_stdin:
+        read(sys.stdin)
+    else:
+        process(args.url, args.should_output_markdown)
+
+
+def process(url, should_output_markdown = False):
+    """ Process a single URL according to the rules we set """
+    title = fetch_title(url)
+    if should_output_markdown:
+        title = markdown_link(url, title)
+
+    print(title)
+
+
+def make_parser():
+    parser = ArgumentParser(description='Fetch title from webpage')
+
+    # positional url argument
+    parser.add_argument(
+            '-u',
+            '--url',
+            help='A single url to fetch')
+
+    parser.add_argument(
+            '-m',
+            '--markdown',
+            dest='should_output_markdown',
+            action=BooleanOptionalAction,
+            help='Outputs a markdown link using the title and url')
+
+    parser.add_argument(
+            '-i',
+            '--stdin',
+            dest='should_read_stdin',
+            action=BooleanOptionalAction,
+            help='Read inputs from stdin')
+
+    return parser
+
+
+def read(lines):
+    """ reads and processes lines from stdin """
+    for line in lines:
+        url = line.strip()
+        process(url)
+
+
+def fetch_title(url):
+    # headers from https://stackoverflow.com/questions/13303449/urllib2-httperror-http-error-403-forbidden
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+        'Accept-Encoding': 'none',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'Connection': 'keep-alive'
+    }
+
+    request = Request(url, headers=headers)
+    html_string = str(urlopen(request).read())
+
+    parser = TitleParser()
+    parser.feed(html_string)
+    return parser.title
+
+
+class TitleParser(HTMLParser):
+    """ Parses the title of the given HTML string """
+
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.match = False
+        self.title = ''
+
+    def handle_starttag(self, tag, attributes):
+        self.match = tag == 'title'
+
+    def handle_data(self, data):
+        if self.match:
+            self.title = data
+            self.match = False
+
+
+def markdown_link(url, title):
+    return f'[{title}]({url})'
+
+if __name__ == '__main__':
+    main()
