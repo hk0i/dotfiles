@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
+
+# Convert Resolve-generated Index files to YouTube chapters
+# Currently uses some extremely naive, not well-tested string manipulation.
+
+
 import csv
 import sys
+
 
 def output_chapter(time, name, notes):
     """
@@ -15,6 +21,7 @@ def output_chapter(time, name, notes):
 
     name = name if name else notes
     print(formatted_time, name)
+
 
 def main(csv_string):
     reader = csv.DictReader(csv_string)
