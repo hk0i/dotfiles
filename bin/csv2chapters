@@ -17,7 +17,7 @@ def output_chapter(time, name, notes):
     formatted_time = time[:-3]
     start_hour = formatted_time[:2]
     if start_hour == '01':
-        formatted_time = '00:' + time[3:]
+        formatted_time = '00:' + formatted_time[3:]
 
     name = name if name else notes
     print(formatted_time, name)
