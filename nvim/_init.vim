@@ -180,7 +180,7 @@ let g:vim_markdown_frontmatter=1
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-" }}} 
+" }}}
 
 " some language specific things {{{
 " TODO: move these if they get too big
@@ -198,6 +198,13 @@ let g:airline#extensions#tabline#fnamemod = ':t'
             "StripWhitespace is from ntpeters/vim-better-whitespace
             au BufWritePre *.swift :StripWhitespace
         augroup END
+    " }}}
+
+    " {{{
+    " augroup ft_godot
+    "     au!
+    "     au FileType gdscript setlocal noexpandtab
+    " augroup END
     " }}}
 
 " }}}

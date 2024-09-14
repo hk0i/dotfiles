@@ -34,5 +34,12 @@ return {
     })
 
     lspconfig.jedi_language_server.setup{}
+
+
+    lspconfig.gdscript.setup {
+        filetypes = { "gd", "gdscript", "gdscript3" },
+    }
+
+
   end,
 }
