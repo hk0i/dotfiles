@@ -10,9 +10,6 @@ alias hpaste="history|cut -d ' ' -f 5-"
 
 export PATH="/usr/local/bin:$PATH"
 pathadd $HOME/bin
-pathadd /Applications/MAMP/bin
-pathadd /Applications/MAMP/Library/bin
-pathadd /Applications/MAMP/bin/php/php5.2.17/bin
 pathadd $(pyenv root)/shims
 
 pathadd $HOME/org/bin
