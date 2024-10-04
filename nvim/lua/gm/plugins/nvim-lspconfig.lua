@@ -28,6 +28,10 @@ return {
     opts.desc = 'Rename variable'
     vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, opts)
 
+    opts.desc = "Go to definition"
+    vim.keymap.set("n", "<leader>i", vim.lsp.buf.definition, opts)
+
+
     lspconfig["sourcekit"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
@@ -36,6 +40,7 @@ return {
     lspconfig.jedi_language_server.setup{}
 
 
+    -- godot
     lspconfig.gdscript.setup {
         filetypes = { "gd", "gdscript", "gdscript3" },
     }
