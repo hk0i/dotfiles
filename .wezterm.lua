@@ -7,5 +7,6 @@ local config = wezterm.config_builder()
 config.color_scheme = 'Kanagawa'
 config.font = wezterm.font 'Intel One Mono'
 config.font_size = 15
+config.window_background_opacity = 0.8
 
 return config
