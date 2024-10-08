@@ -14,6 +14,7 @@ source symbols.sh
 function main() {
     installHomebrew
 
+    disableDiacriticsMenu
     initVim
     linkAllDotFiles
 
@@ -40,6 +41,12 @@ function installHomebrew() {
 
     echo "$gear installing homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+function disableDiacriticsMenu() {
+    # disables the accent menu that shows up when holding certain letters down on the keyboard
+    echo "$info Disabling MacOS Diacritics (press-and-hold)"
+    defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 }
 
 function installRipGrep() {
