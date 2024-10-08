@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# TODO:
+#   Add node + nvm
+#   Intel-One font
+#   Split nvim installation and config linking steps
+#   install ripgrep
+
 abspath=$(cd ${0%/*} && echo $PWD/${0##*/})
 abspath=$(dirname ${abspath})
 
@@ -7,8 +13,11 @@ source symbols.sh
 
 function main() {
     installHomebrew
+
     initVim
     linkAllDotFiles
+
+    installRipGrep
     installVundle
     installNvim
     installFortune
@@ -32,6 +41,17 @@ function installHomebrew() {
     echo "$gear installing homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
+
+function installRipGrep() {
+    which rg > /dev/null
+    if [ $? -eq 0 ]; then
+        echo "$checkmark ripgrep detected; skipping."
+        return
+    fi
+
+    brew install ripgrep
+}
+
 
 function createLink() {
     fileOrDir="$1"
@@ -128,7 +148,40 @@ function installFonts() {
     # make sure to filter out any *Windows* compatible files and use otf where
     # available
     # also check if they're already installed first...
+    echo "$info checking for fonts..."
+    installIntelOneMono
     echo "$gear installing nerdfonts"
+
+}
+
+function installIntelOneMono() {
+    echo "$info checking user fonts for IntelOneMono..."
+    ls ~/Library/Fonts/IntelOneMono* > /dev/null
+    if [ $? == 0 ]; then
+        echo "$check ...IntelOneMono detected; skipping"
+        return
+    fi
+
+    echo "$info checking system fonts for IntelOneMono..."
+    ls /Library/Fonts/IntelOneMono* > /dev/null
+    if [ $? == 0 ]; then
+        echo "$check ...IntelOneMono detected; skipping"
+        return
+    fi
+
+    startDirectory="$(pwd)"
+
+        mkdir -p $HOME/src
+        cd $HOME/src
+        git clone https://github.com/intel/intel-one-mono.git
+        installFonts "intel-one-mono/fonts/ttf/*.ttf"
+
+    cd "$startDirectory"
+}
+
+function installFonts() {
+    # installs the fonts, given their filenames
+    open -b com.apple.FontBook "$1"
 }
 
 function installPyenv() {
