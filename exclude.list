@@ -5,3 +5,4 @@ exclude.list
 nvim
 setup.sh
 symbols.sh
+setup
