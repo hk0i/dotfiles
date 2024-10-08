@@ -24,7 +24,7 @@ function main() {
     installFortune
     installMisc
     installPython
-    installFonts
+    installDevFonts
     installLazygit
 
     . ~/.profile
@@ -149,46 +149,8 @@ function installMisc() {
     brew install fzf
 }
 
-function installFonts() {
-    # https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
-    # TODO: download, extract and move to ~/Library/Fonts or /Library/Fonts
-    # make sure to filter out any *Windows* compatible files and use otf where
-    # available
-    # also check if they're already installed first...
-    echo "$info checking for fonts..."
-    installIntelOneMono
-    echo "$gear installing nerdfonts"
-
-}
-
-function installIntelOneMono() {
-    echo "$info checking user fonts for IntelOneMono..."
-    ls ~/Library/Fonts/IntelOneMono* > /dev/null
-    if [ $? == 0 ]; then
-        echo "$check ...IntelOneMono detected; skipping"
-        return
-    fi
-
-    echo "$info checking system fonts for IntelOneMono..."
-    ls /Library/Fonts/IntelOneMono* > /dev/null
-    if [ $? == 0 ]; then
-        echo "$check ...IntelOneMono detected; skipping"
-        return
-    fi
-
-    startDirectory="$(pwd)"
-
-        mkdir -p $HOME/src
-        cd $HOME/src
-        git clone https://github.com/intel/intel-one-mono.git
-        installFonts "intel-one-mono/fonts/ttf/*.ttf"
-
-    cd "$startDirectory"
-}
-
-function installFonts() {
-    # installs the fonts, given their filenames
-    open -b com.apple.FontBook "$1"
+function installDevFonts() {
+    ./setup/installFonts.sh
 }
 
 function installPyenv() {
