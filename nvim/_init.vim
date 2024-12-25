@@ -258,4 +258,5 @@ command! OscCopy :call OscCopy()
 hi clear CursorLine
 hi link CursorLine CursorColumn
 
-" lua require 'init'
+let g:floaterm_width = 0.9
+let g:floaterm_height = 0.9
