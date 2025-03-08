@@ -58,6 +58,8 @@ au! BufWritePost keymap.vim so %
 
     nnoremap <Leader><Space> za
     nnoremap <Leader>g :FloatermNew lazygit<CR>
+
+    nnoremap <Leader>u :lua require("telescope.builtin").lsp_references()<CR>
     " }}}
 
     noremap Q gq
