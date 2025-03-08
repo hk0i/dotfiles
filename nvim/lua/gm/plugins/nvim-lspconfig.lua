@@ -31,7 +31,6 @@ return {
     opts.desc = "Go to definition"
     vim.keymap.set("n", "<leader>i", vim.lsp.buf.definition, opts)
 
-
     lspconfig["sourcekit"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
