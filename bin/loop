@@ -6,4 +6,4 @@ if [[ ! -n "$1" ]]; then
     exit 1
 fi
 
-mplayer "$1" -loop 0
+mplayer -ao openal -vo gl_nosw "$1" -loop 0
