@@ -25,7 +25,7 @@ au! BufWritePost keymap.vim so %
 
     " leader commands {{{
     " file commands {{{
-    nnoremap <Leader>bd :bd<CR>
+    nnoremap <Leader>d :bd<CR>
     nnoremap <Leader>q :q<CR>
     nnoremap <Leader>Q :qall<CR>
     nnoremap <Leader>w :w<CR>
