@@ -60,6 +60,7 @@ au! BufWritePost keymap.vim so %
     nnoremap <Leader>g :FloatermNew lazygit<CR>
 
     nnoremap <Leader>u :lua require("telescope.builtin").lsp_references()<CR>
+    nnoremap <Leader>2 :lua vim.diagnostic.open_float(0, {scope='line'})<CR>
     " }}}
 
     noremap Q gq
