@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+
+## Split markdown notes into separate files based on their heading names
+
+
+import sys
+import re
+import argparse
+
+
+heading_regex = re.compile(r'^(#+) (.+)')
+special_char_regex = re.compile(r'[^A-Za-z0-9 ]')
+current_filename = ''
+document = ''
+current_number = 0
+
+
+def split_notes(filename):
+    with open(filename, 'r') as file:
+        for line in file:
+            process_line(line)
+            # print(line, end='')
+
+
+def process_line(line):
+    global document
+    match = heading_regex.match(line)
+    if match and len(match.group(1)) == 1:
+        # dump previous file, if any
+        dump_file()
+        start_file(match)
+    else:
+        document += line
+
+
+def dump_file():
+    global document, current_filename
+    if current_filename:
+        with open(current_filename, 'w') as file:
+            file.write(document)
+        document = ''
+
+
+def start_file(match):
+    global current_filename, current_number
+    # start next file
+    # len matches heading 1 only
+    unsafe_heading = match.group(2).strip()
+    heading = special_char_regex.sub('', unsafe_heading)
+    current_filename = f'{heading}.md'
+    if current_number > 0:
+        current_filename = f'{current_number:#02}. {current_filename}'
+    current_number += 1
+
+    print(f'Creating file {current_filename}, unsafe: {unsafe_heading}')
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        prog='Split Notes',
+        usage='%(prog)s [options] filename',
+        description='Split markdown notes into separate files based on their heading names'
+    )
+    parser.add_argument('filename', help='filename to split')
+    # parser.add_argument('-s', '--start-number', action='start_number')
+    split_notes(sys.argv[1])
