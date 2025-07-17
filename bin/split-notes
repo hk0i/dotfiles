@@ -13,7 +13,7 @@ heading_regex = re.compile(r'^(#+) (.+)')
 special_char_regex = re.compile(r'[^A-Za-z0-9 ]')
 current_filename = ''
 document = ''
-current_number = 0
+current_number = -1
 
 
 def split_notes(filename):
@@ -49,9 +49,9 @@ def start_file(match):
     unsafe_heading = match.group(2).strip()
     heading = special_char_regex.sub('', unsafe_heading)
     current_filename = f'{heading}.md'
-    if current_number > 0:
+    if current_number >= 0:
         current_filename = f'{current_number:#02}. {current_filename}'
-    current_number += 1
+        current_number += 1
 
     print(f'Creating file {current_filename}, unsafe: {unsafe_heading}')
 
@@ -59,9 +59,19 @@ def start_file(match):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         prog='Split Notes',
-        usage='%(prog)s [options] filename',
+        usage='%(prog)s [options] <file>',
         description='Split markdown notes into separate files based on their heading names'
     )
-    parser.add_argument('filename', help='filename to split')
-    # parser.add_argument('-s', '--start-number', action='start_number')
-    split_notes(sys.argv[1])
+    parser.add_argument('file', help='file to split')
+    parser.add_argument('-s', '--start-number', help='Number files starting with this number', type=int, default=1)
+    parser.add_argument('-n', '--no-number', help='Do not number files', action='store_true')
+    args = parser.parse_args()
+
+    print(f'Splitting notes from {args.file} into separate files', end='')
+    if args.start_number >= 0 and not args.no_number:
+        print(f' starting with number {args.start_number}')
+        current_number = args.start_number
+    else:
+        print('')
+
+    split_notes(args.file)
