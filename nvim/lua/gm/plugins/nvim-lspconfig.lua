@@ -6,8 +6,7 @@ return {
     { "antosha417/nvim-lsp-file-operations", config = true },
   },
   config = function()
-    local lspconfig = require("lspconfig")
-    local util = require("lspconfig.util")
+    local lspconfig = vim.lsp.config
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
     local capabilities = cmp_nvim_lsp.default_capabilities()
     local opts = { noremap = true, silent = true }
@@ -31,18 +30,20 @@ return {
     opts.desc = "Go to definition"
     vim.keymap.set("n", "<leader>i", vim.lsp.buf.definition, opts)
 
-    lspconfig["sourcekit"].setup({
+    lspconfig("sourcekit", {
       capabilities = capabilities,
       on_attach = on_attach,
     })
+    vim.lsp.enable('sourcekit')
 
-    lspconfig.jedi_language_server.setup{}
-
+    lspconfig('jedi_language_server', {})
+    vim.lsp.enable('jedi_language_server')
 
     -- godot
-    lspconfig.gdscript.setup {
+    lspconfig('gdscript', {
         filetypes = { "gd", "gdscript", "gdscript3" },
-    }
+    })
+    vim.lsp.enable('gdscript')
 
 
   end,
