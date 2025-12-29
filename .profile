@@ -28,4 +28,6 @@ export PATH="$PATH:$HOME/.rvm/bin"
 export EDITOR="nvim"
 
 
-alias t="tmux new-session -s '$(basename $(pwd))'"
+function t() {
+    tmux new-session -s "$(basename $(pwd))"
+}
