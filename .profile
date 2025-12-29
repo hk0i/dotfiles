@@ -8,9 +8,9 @@ pathadd() {
 
 alias hpaste="history|cut -d ' ' -f 5-"
 
+pathadd $(pyenv root)/shims
 export PATH="/usr/local/bin:$PATH"
 pathadd $HOME/bin
-pathadd $(pyenv root)/shims
 
 pathadd $HOME/org/bin
 for file in $HOME/org/*; do
