@@ -1,0 +1,10 @@
+#!/bin/bash
+
+last=$(ls -t ~/Desktop/Screenshot*|head -n 1)
+name="$1"
+
+if [ -z "$name" ]; then
+    name="./$(basename "$last")"
+fi
+
+cp "$last" "$name"
