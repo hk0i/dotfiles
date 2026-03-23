@@ -17,6 +17,7 @@ function main() {
     disableDiacriticsMenu
     initVim
     linkAllDotFiles
+    linkGhosttyConfig
 
     installRipGrep
     installVundle
@@ -131,6 +132,11 @@ function installVimPlug() {
 
 function linkNvimConfig() {
     mkdir -p "$HOME/.config" && ln -sf "${abspath}/nvim" "$HOME/.config/."
+}
+
+function linkGhosttyConfig() {
+    # TODO: consolidate with linkNvimConfig above
+    mkdir -p "$HOME/.config" && ln -sf "${abspath}/ghossty" "$HOME/.config/."
 }
 
 function installFortune() {
