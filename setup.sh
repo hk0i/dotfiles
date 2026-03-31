@@ -28,6 +28,7 @@ function main() {
     installPython
     installDevFonts
     installLazygit
+    installBrewApps
 
     . ~/.profile
     installOhMyZsh
@@ -246,6 +247,41 @@ function installRvm() {
     else
         echo "$info checking for ruby..."
     fi
+}
+
+function installBrewApps() {
+    local list_file="${abspath}/brew-apps.list"
+    local app_dir="/Applications"
+
+    while IFS= read -r app || [[ -n "$app" ]]; do
+        [[ -z "$app" || "$app" =~ ^# ]] && continue
+
+        echo "$info checking for $app..."
+
+        # 1. Skip if already managed by brew
+        if brew list "$app" &>/dev/null; then
+            echo "$checkmark $app detected; skipping."
+            continue
+        fi
+
+        # 2. Check if the package is specifically a Cask
+        # 'brew info --cask' returns 0 if a cask with that name exists
+        if brew info --cask "$app" &>/dev/null; then
+            echo "$gear $app identified as a GUI app. Installing cask..."
+
+            # Clean up manual install if it exists
+            local manual_app=$(find "$app_dir" -maxdepth 1 -iname "${app}*.app" -print -quit)
+            [[ -n "$manual_app" ]] && sudo rm -rf "$manual_app"
+
+            brew install --cask "$app"
+        else
+            # 3. Otherwise, install as a standard formula
+            echo "$gear installing $app formula..."
+            brew install "$app"
+        fi
+
+        echo "$checkmark $app setup complete."
+    done < "$list_file"
 }
 
 main
