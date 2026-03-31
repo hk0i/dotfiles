@@ -137,7 +137,7 @@ function linkNvimConfig() {
 
 function linkGhosttyConfig() {
     # TODO: consolidate with linkNvimConfig above
-    mkdir -p "$HOME/.config" && ln -sf "${abspath}/ghossty" "$HOME/.config/."
+    mkdir -p "$HOME/.config" && ln -sf "${abspath}/ghostty" "$HOME/.config/."
 }
 
 function installFortune() {
