@@ -19,6 +19,7 @@ function main() {
     linkAllDotFiles
     linkGhosttyConfig
 
+    installRvm
     installRipGrep
     installVundle
     installNvim
@@ -199,6 +200,52 @@ function installLazygit() {
     brew install lazygit
 
     echo "$check lazygit installed"
+}
+
+function installGpg() {
+    echo "$info checking for gpg..."
+    which gpg > /dev/null
+    if [ $? -eq 0 ]; then
+        echo "$info checking for gpg..."
+        return
+    fi
+
+    brew install gnupg
+}
+
+function installRvm() {
+    installGpg
+
+    echo "$info checking for rvm..."
+    if ! command -v rvm &> /dev/null; then
+        echo "$info rvm not found. Installing..."
+        curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+        curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
+
+        # Only install the RVM manager first
+        \curl -sSL https://get.rvm.io | bash -s -- --latest
+    fi
+
+    # CRITICAL: Source it here so the 'rvm' command works for the ruby check below
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+    echo "$info checking for ruby..."
+    if ! rvm list strings | grep -q "ruby-"; then
+        echo "$info ruby not found. Installing latest..."
+
+        # 1. Install what's actually available
+        brew install openssl@3 libyaml gmp readline
+
+        # 2. Tell RVM NOT to try installing missing brew packages
+        rvm autolibs read-only
+
+        # update rvm to get latest rubies
+        rvm get head
+        rvm install ruby --latest
+        rvm use ruby --latest --default
+    else
+        echo "$info checking for ruby..."
+    fi
 }
 
 main
