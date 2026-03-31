@@ -29,6 +29,7 @@ function main() {
     installDevFonts
     installLazygit
     installBrewApps
+    installXcodes
 
     . ~/.profile
     installOhMyZsh
@@ -282,6 +283,33 @@ function installBrewApps() {
 
         echo "$checkmark $app setup complete."
     done < "$list_file"
+}
+
+function installXcodes() {
+    local app_path="/Applications/Xcodes.app"
+    local cli_symlink="$HOME/bin/xcodes"
+
+    echo "$info Checking for Xcodes..."
+    if [[ ! -d "$app_path" ]]; then
+        echo "$gear Installing Xcodes.app (Cask) for high-speed aria2 downloads..."
+        brew install --cask xcodes
+    fi
+
+    # Link the bundled CLI so you can use 'xcodes' in the terminal
+    if [[ ! -L "$cli_symlink" ]]; then
+        echo "$info Linking bundled xcodes CLI to $cli_symlink..."
+        ln -sf "$app_path/Contents/Resources/xcodes" "$cli_symlink"
+    fi
+
+    # Now use the CLI to get the latest Xcode
+    if ! xcodes installed | grep -q "Selected"; then
+        echo "$gear Downloading latest Xcode via aria2 (this will be fast)..."
+        # The CLI will now use the bundled aria2 automatically
+        xcodes install --latest --select
+        sudo xcodebuild -license accept
+    else
+        echo "$checkmark Latest Xcode is already installed and selected."
+    fi
 }
 
 main
