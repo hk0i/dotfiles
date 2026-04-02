@@ -63,20 +63,41 @@ function installRipGrep() {
     brew install ripgrep
 }
 
-
 function createLink() {
-    fileOrDir="$1"
-    if [[ -f ${HOME}/$1 ]]; then
-        mv ${HOME}/$1 ${HOME}/$1-original
-        echo "$warning ${HOME}/$1 detected! Moving to ${HOME}/$1-original"
+    local target_name="$1"
+    local dest="${HOME}/${target_name}"
+    local src="${abspath}/${target_name}"
+    local backup="${dest}-original"
+
+    # 1. Handle existing Symlinks
+    if [[ -L "$dest" ]]; then
+        # Check if it already points to the right place
+        if [[ "$(readlink "$dest")" == "$src" ]]; then
+            echo "$checkmark $target_name: already linked correctly."
+            return
+        else
+            echo "$warning $target_name: incorrect symlink found. Removing..."
+            rm "$dest"
+        fi
     fi
 
-    if [[ -L ${HOME}/$1 ]]; then
-        echo "$warning ${HOME}/$1: symlink detected. Do nothing."
-        return
+    # 2. Handle existing Files or Directories
+    if [[ -e "$dest" ]]; then
+        # Check if backup already exists to avoid overwriting a previous backup
+        if [[ -e "$backup" ]]; then
+            local timestamp=$(date +%Y%m%d%H%M%S)
+            backup="${backup}-${timestamp}"
+        fi
+
+        echo "$warning $target_name detected! Moving to $backup"
+        mv "$dest" "$backup"
     fi
 
-    (set -x; ln -sf ${abspath}/$1 ${HOME}/$1)
+    # 3. Create the Link
+    # Using -n ensures that if the source is a directory, ln doesn't
+    # try to create the link INSIDE the destination.
+    echo "$gear Linking $target_name..."
+    (set -x; ln -snf "$src" "$dest")
 }
 
 function linkAllDotFiles() {

@@ -2,7 +2,6 @@
 .git
 README.md
 exclude.list
-nvim
 setup.sh
 symbols.sh
 setup
