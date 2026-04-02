@@ -17,7 +17,6 @@ function main() {
     disableDiacriticsMenu
     initVim
     linkAllDotFiles
-    linkGhosttyConfig
 
     installRvm
     installRipGrep
@@ -145,7 +144,6 @@ function installNvim() {
     brew install nvim python3
     pip3 install neovim
     installVimPlug
-    linkNvimConfig
     nvim +PlugInstall +qall
 }
 
@@ -154,14 +152,6 @@ function installVimPlug() {
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 }
 
-function linkNvimConfig() {
-    mkdir -p "$HOME/.config" && ln -sf "${abspath}/nvim" "$HOME/.config/."
-}
-
-function linkGhosttyConfig() {
-    # TODO: consolidate with linkNvimConfig above
-    mkdir -p "$HOME/.config" && ln -sf "${abspath}/ghostty" "$HOME/.config/."
-}
 
 function installFortune() {
     which fortune > /dev/null
