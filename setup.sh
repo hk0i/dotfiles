@@ -18,7 +18,8 @@ function main() {
     initVim
     linkAllDotFiles
 
-    installRvm
+    installGpg
+    installMiseTools
     installRipGrep
     installVundle
     installNvim
@@ -215,6 +216,22 @@ function installLazygit() {
     echo "$check lazygit installed"
 }
 
+function installMiseTools() {
+    echo "$info checking for mise..."
+    if ! command -v mise &> /dev/null; then
+        echo "$gear installing mise via homebrew..."
+        brew install mise
+    fi
+
+    echo "$info installing runtimes (Node, pnpm, Ruby)..."
+    # This installs everything defined in your ~/.config/mise/config.toml
+    # or the versions you 'used' in step 1.
+    mise install
+
+    # Ensure pnpm is ready for your tech talks
+    echo "$checkmark $(pnpm --version) is ready."
+}
+
 function installGpg() {
     echo "$info checking for gpg..."
     which gpg > /dev/null
@@ -224,41 +241,6 @@ function installGpg() {
     fi
 
     brew install gnupg
-}
-
-function installRvm() {
-    installGpg
-
-    echo "$info checking for rvm..."
-    if ! command -v rvm &> /dev/null; then
-        echo "$info rvm not found. Installing..."
-        curl -sSL https://rvm.io/mpapis.asc | gpg --import -
-        curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
-
-        # Only install the RVM manager first
-        \curl -sSL https://get.rvm.io | bash -s -- --latest
-    fi
-
-    # CRITICAL: Source it here so the 'rvm' command works for the ruby check below
-    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-    echo "$info checking for ruby..."
-    if ! rvm list strings | grep -q "ruby-"; then
-        echo "$info ruby not found. Installing latest..."
-
-        # 1. Install what's actually available
-        brew install openssl@3 libyaml gmp readline
-
-        # 2. Tell RVM NOT to try installing missing brew packages
-        rvm autolibs read-only
-
-        # update rvm to get latest rubies
-        rvm get head
-        rvm install ruby --latest
-        rvm use ruby --latest --default
-    else
-        echo "$info checking for ruby..."
-    fi
 }
 
 function installBrewApps() {

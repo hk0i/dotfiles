@@ -1,0 +1,4 @@
+[tools]
+node = "latest"
+pnpm = "latest"
+ruby = "3.3" # Pinned to a minor version for Rake/Gem compatibility
