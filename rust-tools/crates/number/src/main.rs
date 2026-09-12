@@ -9,7 +9,10 @@ struct Args {
     should_start_at_zero: bool,
 
     #[arg(short = 's', long)]
-    start_from: Option<usize>
+    start_from: Option<usize>,
+
+    #[arg(short = 'b', long = "bold")]
+    should_bold: bool,
 }
 
 fn main() {
@@ -29,7 +32,13 @@ fn main() {
             println!();
         }
         else {
-            println!("{number}. {trimmed}");
+            if args.should_bold {
+                // using if statement instead of let if to avoid heap allocation
+                println!("{number}. **{trimmed}**");
+            }
+            else {
+                println!("{number}. {trimmed}");
+            }
             number += 1;
         }
     }
