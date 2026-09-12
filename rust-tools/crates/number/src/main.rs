@@ -36,7 +36,11 @@ fn main() {
 
     // Compile once outside the processing loop
     // Matches leading whitespace, digits, and optional dots/dashes/parens
-    let re = Regex::new(r"^\s*\d+[\.\)\-]?\s*").unwrap();
+    let re = if args.should_renumber {
+        Some(Regex::new(r"^\s*\d+[\.\)\-]?\s*").unwrap())
+    } else {
+        None
+    };
 
     for line in handle.lines().map_while(Result::ok) {
         let trimmed = line.trim();
@@ -44,10 +48,9 @@ fn main() {
             println!();
         }
         else {
-            let processed = if args.should_renumber {
-                re.replace(trimmed, "")
-            } else {
-                std::borrow::Cow::Borrowed(trimmed)
+            let processed = match &re {
+                Some(re) => re.replace(trimmed, ""),
+                None => std::borrow::Cow::Borrowed(trimmed),
             };
 
             let line = if args.should_bold {
