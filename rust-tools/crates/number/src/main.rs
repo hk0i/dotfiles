@@ -9,9 +9,12 @@ struct Args {
     #[arg(short = '0', long = "zero")]
     should_start_at_zero: bool,
 
+    /// Start numbering from the given number instead of 1
     #[arg(short = 's', long)]
     start_from: Option<usize>,
 
+    /// Bold the line after the number; sample output:
+    /// 1. **captured line**
     #[arg(short = 'b', long = "bold")]
     should_bold: bool,
 
