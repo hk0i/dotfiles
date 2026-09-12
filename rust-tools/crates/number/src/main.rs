@@ -1,5 +1,6 @@
 use std::io::{self, BufRead};
 use clap::Parser;
+use regex::Regex;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -13,6 +14,10 @@ struct Args {
 
     #[arg(short = 'b', long = "bold")]
     should_bold: bool,
+
+    /// Renumbers (removes existing numbers) in the list
+    #[arg(short = 'r', long = "renumber")]
+    should_renumber: bool,
 }
 
 fn main() {
@@ -26,18 +31,27 @@ fn main() {
         None => if args.should_start_at_zero { 0 } else { 1 },
     };
 
+    // Compile once outside the processing loop
+    // Matches leading whitespace, digits, and optional dots/dashes/parens
+    let re = Regex::new(r"^\s*\d+[\.\)\-]?\s*").unwrap();
+
     for line in handle.lines().map_while(Result::ok) {
         let trimmed = line.trim();
         if trimmed.is_empty() {
             println!();
         }
         else {
+            let processed = if args.should_renumber {
+                re.replace(trimmed, "")
+            } else {
+                std::borrow::Cow::Borrowed(trimmed)
+            };
+
             if args.should_bold {
                 // using if statement instead of let if to avoid heap allocation
-                println!("{number}. **{trimmed}**");
-            }
-            else {
-                println!("{number}. {trimmed}");
+                println!("{number}. **{processed}**");
+            } else {
+                println!("{number}. {processed}");
             }
             number += 1;
         }
