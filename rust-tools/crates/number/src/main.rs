@@ -50,12 +50,13 @@ fn main() {
                 std::borrow::Cow::Borrowed(trimmed)
             };
 
-            if args.should_bold {
-                // using if statement instead of let if to avoid heap allocation
-                println!("{number}. **{processed}**");
+            let line = if args.should_bold {
+                format!("**{processed}**")
             } else {
-                println!("{number}. {processed}");
-            }
+                processed.to_string()
+            };
+
+            println!("{number}. {line}");
             number += 1;
         }
     }
