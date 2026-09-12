@@ -53,10 +53,9 @@ fn main() {
                 None => std::borrow::Cow::Borrowed(trimmed),
             };
 
-            let line = if args.should_bold {
-                format!("**{processed}**")
-            } else {
-                processed.to_string()
+            let line = match args.should_bold {
+                true => format!("**{processed}**"),
+                false => processed.to_string(),
             };
 
             writeln!(stdout, "{number}. {line}");
