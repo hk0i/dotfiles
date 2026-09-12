@@ -1,4 +1,4 @@
-use std::io::{self, BufRead};
+use std::io::{self, BufRead, Write};
 use clap::Parser;
 use regex::Regex;
 
@@ -26,8 +26,8 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    let stdin = io::stdin();
-    let handle = stdin.lock();
+    let stdin = io::stdin().lock();
+    let mut stdout = io::stdout().lock();
 
     let mut number = match args.start_from {
         Some(start_value) => start_value,
@@ -42,7 +42,7 @@ fn main() {
         None
     };
 
-    for line in handle.lines().map_while(Result::ok) {
+    for line in stdin.lines().map_while(Result::ok) {
         let trimmed = line.trim();
         if trimmed.is_empty() {
             println!();
@@ -59,7 +59,7 @@ fn main() {
                 processed.to_string()
             };
 
-            println!("{number}. {line}");
+            writeln!(stdout, "{number}. {line}");
             number += 1;
         }
     }
