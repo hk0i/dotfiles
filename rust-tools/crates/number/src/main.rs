@@ -36,10 +36,9 @@ fn main() {
 
     // Compile once outside the processing loop
     // Matches leading whitespace, digits, and optional dots/dashes/parens
-    let re = if args.should_renumber {
-        Some(Regex::new(r"^\s*\d+[\.\)\-]?\s*").unwrap())
-    } else {
-        None
+    let re = match args.should_renumber {
+        true => Some(Regex::new(r"^\s*\d+[\.\)\-]?\s*").unwrap()),
+        false => None,
     };
 
     for line in stdin.lines().map_while(Result::ok) {
