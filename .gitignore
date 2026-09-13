@@ -17,3 +17,4 @@ nvim/.netrwhist
 
 *.pyc
 bin/.idea
+rust-tools/target
