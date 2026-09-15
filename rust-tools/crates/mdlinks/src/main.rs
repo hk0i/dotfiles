@@ -53,11 +53,9 @@ fn parse_content_links(document: &str) -> Result<HashSet<String>, regex::Error> 
 /// Extracts only the footnote links from the footnotes section (bottom) of the document.
 fn parse_footnote_links(document: &str) -> Result<HashSet<String>, regex::Error> {
     let footnote_link_pattern = Regex::new(r#"(?m)^\[([^\]]+)\]:"#)?;
-    let mut links = HashSet::new();
 
-    for capture in footnote_link_pattern.captures_iter(document) {
-        links.insert(capture[1].to_string());
-    }
-
-    Ok(links)
+    Ok(footnote_link_pattern
+        .captures_iter(document)
+        .map(|capture| capture[1].to_string())
+        .collect())
 }
