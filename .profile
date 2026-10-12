@@ -40,3 +40,5 @@ function t() {
 
 source /Users/gregorymcquillan/.docker/init-bash.sh || true # Added by Docker Desktop
 . "$HOME/.cargo/env"
+
+pathadd "$HOME/.dotnet/tools"
