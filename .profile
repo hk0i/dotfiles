@@ -11,6 +11,12 @@ alias hpaste="history|cut -d ' ' -f 5-"
 pathadd $(pyenv root)/shims
 export PATH="/usr/local/bin:$PATH"
 pathadd $HOME/bin
+pathadd /opt/homebrew/opt/ffmpeg-full/bin
+
+# alias ffmpeg directly to the full versions for webp codec support
+# mise breaks our paths later
+alias ffmpeg=/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg
+alias ffprobe=/opt/homebrew/opt/ffmpeg-full/bin/ffprobe
 
 pathadd $HOME/org/bin
 for file in $HOME/org/*; do
