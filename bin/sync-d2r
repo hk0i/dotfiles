@@ -1,0 +1,58 @@
+
+#!/usr/bin/env bash
+set -euo pipefail
+
+BOTTLES="$HOME/Library/Application Support/CrossOver/Bottles"
+SOURCE_BOTTLE="${SOURCE_BOTTLE:?Error: SOURCE_BOTTLE is required. Set it to your CrossOver source bottle name.}"
+GAME_REL="drive_c/Program Files (x86)/Diablo II Resurrected"
+AGENT_REL="drive_c/ProgramData/Battle.net/Agent"
+
+SOURCE="$BOTTLES/$SOURCE_BOTTLE/$GAME_REL"
+
+[[ -d "$SOURCE" ]] || {
+  echo "Source installation not found: $SOURCE"
+  exit 1
+}
+
+for bottle in "$BOTTLES"/*; do
+  [[ -d "$bottle" ]] || continue
+
+  name="$(basename "$bottle")"
+  [[ "$name" == "$SOURCE_BOTTLE" ]] && continue
+
+  game="$bottle/$GAME_REL"
+  agent="$bottle/$AGENT_REL"
+
+  # Only process bottles with an existing D2R installation
+  [[ -e "$game" || -L "$game" ]] || continue
+
+  echo "Processing: $name"
+
+  if [[ -L "$game" ]]; then
+    echo "  Game already symlinked; skipping."
+    continue
+  fi
+
+  backup="${game}.backup"
+
+  if [[ -e "$backup" ]]; then
+    echo "  Backup already exists; skipping."
+    continue
+  fi
+
+  mv "$game" "$backup"
+  ln -s "$SOURCE" "$game"
+  echo "  Shared game installation linked."
+
+  if [[ -f "$agent/product.db" ]]; then
+    if [[ -e "$agent/product.db.backup" ]]; then
+      echo "  Agent backup exists; leaving database unchanged."
+    else
+      mv "$agent/product.db" "$agent/product.db.backup"
+      echo "  Agent installation registration reset."
+    fi
+  fi
+done
+
+echo "Done."
+
