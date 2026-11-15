@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Usage: ./link.sh godot
+SEARCH_TERM=$1
+
+if [ -z "$SEARCH_TERM" ]; then
+    echo "Usage: $0 $(basename $0) (e.g., $0 godot)"
+    exit 1
+fi
+
+cd /Applications || exit
+
+# 1. Perform a case-insensitive search for the app bundles
+# Shopt 'nocaseglob' makes the * wildcard ignore case
+shopt -s nocaseglob
+MATCHES=( ${SEARCH_TERM}*.app )
+shopt -u nocaseglob
+
+if [ ! -e "${MATCHES[0]}" ]; then
+    echo "No apps found matching: /Applications/${SEARCH_TERM}*.app"
+    exit 1
+fi
+
+# 3. Present the menu
+echo "Found the following versions for '${SEARCH_TERM}':"
+PS3="Select a version to symlink as the 'main' app (or Ctrl+C to cancel): "
+
+select APP_PATH in "${MATCHES[@]}"; do
+    if [ -n "$APP_PATH" ]; then
+        # Determine the target name (e.g., Godot.app or Godot4.app)
+        # This takes the user's input and ensures it ends in .app
+        TARGET_NAME="${SEARCH_TERM}.app"
+
+        # 4. Clean up existing links/files at the target location
+        # Since app bundles are directories, this makes removing the target cleaner
+        if [ -L "$TARGET_NAME" ] || [ -e "$TARGET_NAME" ]; then
+            echo "Removing existing entry: $TARGET_NAME"
+            rm -rf "$TARGET_NAME"
+        fi
+
+        # 5. Create the link
+        echo "Linking $APP_PATH -> $TARGET_NAME..."
+        ln -s "$APP_PATH" "$TARGET_NAME"
+
+        echo "Successfully linked! You can now use $TARGET_NAME"
+        break
+    else
+        echo "Invalid selection. Please pick a number from the list."
+    fi
+done
