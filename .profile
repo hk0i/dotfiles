@@ -23,6 +23,8 @@ for file in $HOME/org/*; do
     source $file
 done
 
+pathadd "$HOME/.dotnet/tools"
+
 fortune
 
 alias cvlc="/Applications/VLC.app/Contents/MacOS/VLC"
@@ -38,7 +40,8 @@ function t() {
     tmux new-session -s "$(basename $(pwd))"
 }
 
-source /Users/gregorymcquillan/.docker/init-bash.sh || true # Added by Docker Desktop
+source "$HOME/.docker/init-bash.sh" || true # Added by Docker Desktop
 . "$HOME/.cargo/env"
 
 pathadd "$HOME/.dotnet/tools"
+. "$HOME/.cargo/env"
